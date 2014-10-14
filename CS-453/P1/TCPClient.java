@@ -64,6 +64,8 @@ public class TCPClient{
 		
 		// reads the whole thing >.<
 		//response = inFromServer.readLine();  // reads from server buffer
+		
+		// probably need to parse this
 //		200 OK		-> status code
 //		BODY_BYTE_OFFSET_IN_FILE: 0 	-> byte off set(always 0 for CS)
 //		BODY_BYTE_LENGTH: 58241			-> byte length ()
@@ -73,7 +75,7 @@ public class TCPClient{
 //		note: for client server, the entire file in the body
 
 		//use this code
-		URL url = new URL("http://www.yahoo.com/image_to_read.jpg"); // delete
+		//URL url = new URL("http://www.yahoo.com/image_to_read.jpg"); // delete
 		
 				
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
