@@ -64,27 +64,27 @@ public class TCPClient{
 		
 		// reads the whole thing >.<
 		response = inFromServer.readLine();  // reads from server buffer
-//		200 OK
-//		BODY_BYTE_OFFSET_IN_FILE: 0
-//		BODY_BYTE_LENGTH: 58241
-//		\n\n
+//		200 OK		-> status code
+//		BODY_BYTE_OFFSET_IN_FILE: 0 	-> byte off set(always 0 for CS)
+//		BODY_BYTE_LENGTH: 58241			-> byte length ()
+//		\n\n							-> two new lines to separate header from payload
 //		<bytes of body follow here>
 //		
 //		note: for client server, the entire file in the body
 
 		//use this code
-//		URL url = new URL("http://www.yahoo.com/image_to_read.jpg");
-//		InputStream in = new BufferedInputStream(url.openStream());
-//		ByteArrayOutputStream out = new ByteArrayOutputStream();
-//		byte[] buf = new byte[1024];
-//		int n = 0;
-//		while (-1!=(n=in.read(buf)))
-//		{
-//		   out.write(buf, 0, n);
-//		}
-//		out.close();
-//		in.close();
-//		byte[] response = out.toByteArray();
+//		URL url = new URL("http://www.yahoo.com/image_to_read.jpg"); // delete
+//		InputStream in = new BufferedInputStream(url.openStream());  // delete
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		byte[] buf = new byte[60000];
+		int n = 0;
+		while (-1!=(n=in.read(buf)))
+		{
+		   out.write(buf, 0, n);
+		}
+		out.close();
+		clientSocket.close();
+		byte[] response = out.toByteArray();
 		
 		// saving the image
 		//http://stackoverflow.com/questions/5882005/how-to-download-image-from-any-web-page-in-java
