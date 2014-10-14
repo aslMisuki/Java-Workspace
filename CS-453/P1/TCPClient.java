@@ -37,8 +37,9 @@ public class TCPClient{
 	
 	public void talkToPlumServer() throws IOException{
 		// needs to use GET Redsox.jpg\n
-		request = "GET Redsox.jpg\n";
+		request = "GET Redsox.jpg";
 		
+		byte serverR;
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream()); //creates an obj to send
 		
 		outToServer.writeBytes(request + '\n'); // sends to the server
