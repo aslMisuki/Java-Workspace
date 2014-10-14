@@ -32,6 +32,7 @@ public class Validator {
 		//File file = new File(fileDir);
 		
 		File file = new File("C:/Users/Nam Phan/Dropbox/Programming stuff/workspace/AI/src/assignment01/testFail.txt");
+		
 		/*
 		if(file.canRead()){
 			System.out.println("file can be read");
