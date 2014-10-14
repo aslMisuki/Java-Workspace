@@ -60,7 +60,7 @@ public class TCPClient{
 		
 		outToServer.writeBytes(request + '\n'); // sends to the server
 		
-		//BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
+		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
 		
 		// reads the whole thing >.<
 		//response = inFromServer.readLine();  // reads from server buffer
@@ -73,17 +73,27 @@ public class TCPClient{
 //		note: for client server, the entire file in the body
 
 		//use this code
-//		URL url = new URL("http://www.yahoo.com/image_to_read.jpg"); // delete
-		InputStream in = new BufferedInputStream(new InputStreamReader(clientSocket.getInputStream()));  // delete
+		URL url = new URL("http://www.yahoo.com/image_to_read.jpg"); // delete
 		
+				
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		byte[] buf = new byte[60000];
 		
 		int n = 0;
-		while (-1 != (n=inFromServer.readLine()))
-		{
-		   out.write(buf, 0, n);
+		while(inFromServer.readLine() != null){
+			inFromServer.readLine();	
+			out.write(buf,0,n);
+			n++;
 		}
+		
+		// while there are still stuff in the bufer...
+//		while (-1 != (n=inFromServer.readLine()))
+//		{
+//		   out.write(buf, 0, n);
+//		}
+		
+		
 		out.close();
 		clientSocket.close();
 		byte[] response = out.toByteArray();
