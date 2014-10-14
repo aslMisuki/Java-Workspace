@@ -60,10 +60,10 @@ public class TCPClient{
 		
 		outToServer.writeBytes(request + '\n'); // sends to the server
 		
-		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
+		//BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
 		
 		// reads the whole thing >.<
-		response = inFromServer.readLine();  // reads from server buffer
+		//response = inFromServer.readLine();  // reads from server buffer
 //		200 OK		-> status code
 //		BODY_BYTE_OFFSET_IN_FILE: 0 	-> byte off set(always 0 for CS)
 //		BODY_BYTE_LENGTH: 58241			-> byte length ()
@@ -74,11 +74,13 @@ public class TCPClient{
 
 		//use this code
 //		URL url = new URL("http://www.yahoo.com/image_to_read.jpg"); // delete
-//		InputStream in = new BufferedInputStream(url.openStream());  // delete
+		InputStream in = new BufferedInputStream(new InputStreamReader(clientSocket.getInputStream()));  // delete
+		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		byte[] buf = new byte[60000];
+		
 		int n = 0;
-		while (-1!=(n=in.read(buf)))
+		while (-1 != (n=inFromServer.readLine()))
 		{
 		   out.write(buf, 0, n);
 		}
