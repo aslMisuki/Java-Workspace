@@ -1,20 +1,36 @@
 package PA1;
 
+import javax.imageio.ImageIO;
+
+import java.awt.Image;
 import java.io.*; 
 import java.net.*; 
+
+
 
 public class TCPClient{
 	
 	Socket clientSocket;
 	String request; 
 	String response;
+	byte[] container;
+	int blockSize;
 	
 	public TCPClient(String hostname, int port) throws UnknownHostException, IOException{
 		clientSocket = new Socket(hostname, port); //creates a socket to use
 		request = "";
 		response = "";
+		
+		
+		//container = new 
+	
 	}
 	
+	public int getBlockSize(){ //gets the size of the block from the reply
+		
+		
+		return 0;
+	}
 	public void talkToLocalServer() throws UnknownHostException, IOException{
  
 
@@ -38,7 +54,7 @@ public class TCPClient{
 	public void talkToPlumServer() throws IOException{
 		// needs to use GET Redsox.jpg\n
 		request = "GET Redsox.jpg";
-		
+		Image image = null;
 		byte serverR;
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream()); //creates an obj to send
 		
@@ -55,6 +71,26 @@ public class TCPClient{
 //		<bytes of body follow here>
 //		
 //		note: for client server, the entire file in the body
+
+		//use this code
+//		URL url = new URL("http://www.yahoo.com/image_to_read.jpg");
+//		InputStream in = new BufferedInputStream(url.openStream());
+//		ByteArrayOutputStream out = new ByteArrayOutputStream();
+//		byte[] buf = new byte[1024];
+//		int n = 0;
+//		while (-1!=(n=in.read(buf)))
+//		{
+//		   out.write(buf, 0, n);
+//		}
+//		out.close();
+//		in.close();
+//		byte[] response = out.toByteArray();
+		
+		// saving the image
+		//http://stackoverflow.com/questions/5882005/how-to-download-image-from-any-web-page-in-java
+//		FileOutputStream fos = new FileOutputStream("C://borrowed_image.jpg");
+//		fos.write(response);
+//		fos.close();
 
 		clientSocket.close();
 		
