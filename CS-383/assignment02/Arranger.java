@@ -1,4 +1,4 @@
-package assignment02;
+//package assignment02;
 
 import java.io.File;
 import java.io.IOException;
@@ -284,7 +284,8 @@ public class Arranger {
 		//String method = args[0]; //"coverage" or "bigger"
 		//File file = new File(fileDir);
 		
-		File file = new File("C:/Users/Nam Phan/Dropbox/383 AI/Java workspace/AI/A2/assignment02/test.txt");
+		//File file = new File("C:/Users/Nam Phan/Dropbox/383 AI/Java workspace/AI/A2/assignment02/test.txt");
+		File file = new File ("./test.txt");
 		String method = "bigger";
 		
 		
