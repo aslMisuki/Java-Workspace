@@ -13,16 +13,17 @@ class TCPServer {
 
 		while(true){
 
-			Socket connectionSocket = welcomeSocket.accept(); 
+			Socket connectionSocket = welcomeSocket.accept(); // accepts socket 
 
 			BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream())); 
-
+			//sends to client in form of DataOutputStream obj
 			DataOutputStream  outToClient = new DataOutputStream(connectionSocket.getOutputStream()); 
-
+			
 			clientSentence = inFromClient.readLine(); 
-
+			
 			capitalizedSentence = clientSentence.toUpperCase() + '\n'; 
-
+			
+		
 			outToClient.writeBytes(capitalizedSentence); 
 
 		}
