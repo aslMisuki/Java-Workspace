@@ -11,9 +11,8 @@ import java.net.*;
 public class TCPClient{
 
 	Socket clientSocket;
-	String request; 
+	String request;
 	String response;
-	byte[] container;
 	int blockSize;
 
 	public TCPClient(String hostname, int port) throws UnknownHostException, IOException{
@@ -76,23 +75,27 @@ public class TCPClient{
 		
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream()); //creates an obj to send
 
-		
-		//in
+		//request
 		outToServer.writeBytes(request + '\n'); // sends to the server
 		
+		// stream from server
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
 		
-		String header = inFromServer.readLine(); // stores input from server as a string
+		//reading from server buffer
+		String header = inFromServer.readLine(); //read header 
 		inFromServer.readLine(); // extra charage return
-		String body = inFromServer.readLine(); // stores the body
+		String body = inFromServer.readLine(); // read the body which is 1 big line
 		
+		//Saving
+		byte[] toSave = body.getBytes(); // convert to array of bytes
+		FileOutputStream fos = new FileOutputStream("C:/Redsox.jpg");
+		fos.write(toSave);
+		fos.close();
 		
 		inFromServer.close();
 		outToServer.close();
 		clientSocket.close();
-		//byte[] serverR = new byte[60000];
-		// reads the whole thing >.<
-		//response = inFromServer.readLine();  // reads from server buffer
+
 
 		// probably need to parse this
 		//				200 OK		-> status code
@@ -101,39 +104,6 @@ public class TCPClient{
 		//				\n\n							-> two new lines to separate header from payload
 		//				<bytes of body follow here>
 		//				
-		//				note: for client server, the entire file in the body
-
-		//use this code
-		//URL url = new URL("http://www.yahoo.com/image_to_read.jpg"); // delete
-
-
-		//				ByteArrayOutputStream out = new ByteArrayOutputStream();
-		//				
-		//				byte[] buf = new byte[60000];
-		//				
-		//				int n = 0;
-		//				while(inFromServer.readLine() != null){
-		//					inFromServer.readLine();	
-		//					out.write(buf,0,n);
-		//					n++;
-		//				}
-
-		// while there are still stuff in the bufer...
-		//				while (-1 != (n=inFromServer.readLine()))
-		//				{
-		//				   out.write(buf, 0, n);
-		//				}
-
-
-		//out.close();
-		//clientSocket.close();
-		//byte[] response = out.toByteArray();
-
-		// saving the image
-		//http://stackoverflow.com/questions/5882005/how-to-download-image-from-any-web-page-in-java
-		//				FileOutputStream fos = new FileOutputStream("C://borrowed_image.jpg");
-		//				fos.write(response);
-		//				fos.close();
 
 	}
 
