@@ -1,4 +1,4 @@
-package assignment03;
+package A3redo;
 
 import java.util.*;
 import java.io.*;
@@ -44,14 +44,163 @@ public class TicTacToe {
 		//		Move moveTest = new Move(0,2,1,board,maxPlayerTurn);
 		//		board.doMove(moveTest);
 
-		MiniMax miniMax(board);
+		miniMax(board);
 
 		//printBoard(); //TODO: for debugging purposes remove after
-		//System.out.println(Utility(board));
+		System.out.println(Utility(board));
 	}
 
 	// returns an action to take
+	private Move miniMax(Board b){
+		int x =0;
+		int o =0;
+		// need to figure out who goes next
+		if(b.isSingleLine()){
+			for(String[]a : b.getBoard()){
+				for(String c : a){
+					if(c.equals("X")){
+						x++;
+					}
+					if(c.equals("O")){
+						o++;
+					}
+				}
+			}
+		}
+		else{ // not single line
+			for(String[]a : b.getBoard()){
+				for(String c : a){
+					if(c.equals("X")){
+						x++;
+					}
+					else if(c.equals("O")){
+						o++;
+					}
+				}
+			}
+		}
 
+		if(x > 0){
+			maxPlayerTurn = false;
+			minMoves = makeMoves(b);
+		}
+		else{
+			maxPlayerTurn = true;
+			maxMoves = makeMoves(b);
+		}
+
+
+		Move ret = null;
+		int maxValue = 0;
+		int value = 0;
+		for(Move a : maxMoves){ // needs to return the max action
+			if(ret == null){
+				ret = a;
+				value = ret.getValue();
+				maxValue = value;
+			}
+			else if(a.compareTo(ret) > 0){
+				ret = a;
+				value = minValue(b.doMove(ret));
+				maxValue = Integer.max(value, maxValue);
+			}
+		}
+		return ret;
+
+	}
+
+	// returns a utility value
+	private int maxValue(Board b){
+		if(terminalTest(b)){
+			return Utility(b);
+		}
+
+		maxPlayerTurn = true;
+		maxMoves = makeMoves(b);
+
+		int value = Integer.MIN_VALUE;
+		for(Move a : maxMoves){
+			value = Integer.max(value, minValue(b.doMove(a)));
+		}
+		return value;
+	}
+
+	//returns a utility value
+	private int minValue(Board b){
+
+		if(terminalTest(b)){
+			return Utility(b);
+		}
+
+		maxPlayerTurn = false;
+		minMoves = makeMoves(b);
+
+		int value = Integer.MAX_VALUE;
+		for(Move a : minMoves){
+			value = Integer.min(value, maxValue(b.doMove(a)));
+		}
+		return value;
+	}
+
+	private boolean terminalTest(Board b){ // determines if the state is a terminal one.
+		int k = b.getK(); //winning if k*X or K*Y in a row, or all filled 
+
+		if(b.checkAllFilled()){
+			return true;
+		}
+		else if(Utility(b) == -1 || (Utility(b) == 0 || (Utility(b) == 1 ))){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	private int Utility(Board b){ // returns the win/lose/tie state of the board that has been decided terminal -1, 0 or 1
+
+		int[] maxM = new int[b.getK()*b.getK()];
+		int[] minM = new int[b.getK()*b.getK()];
+		int minC = 0;
+		int maxC = 0;
+		int ret = 0;
+		if(b.getK() == 3 && b.getIsEmpty()){
+			return 0; // 3x3 Maxplayer cannot lose but won't win against a Miniplayer that also plays optimally
+		}
+		else if(b.getK() == 3){ // focusing only on 3x3// conditions for victory, loss or tie
+			if(b.isSingleLine()){
+
+			}
+			else{ // not single line format
+				for(int i=0; i<b.getK(); i++){ // rowIndex
+					for (int c=0; c<b.getK(); c++){ // colIndex
+						if(b.getBoard().get(i)[c].equals("X")){
+							maxM[maxC] = Integer.parseInt(""+ i + c);
+							maxC++;
+						}
+						else if (b.getBoard().get(i)[c].equals("O")){
+							minM[minC] = Integer.parseInt(""+ i + c);
+							minC++;
+						}
+					}
+				}
+				
+				if(maxM.length > minM.length){ //we know the winner is maxM
+					ret = 1;
+				}
+				else if(maxM.length == minM.length){
+					ret = 0;
+				}
+				else{
+					ret = -1;
+				}
+			}
+		}
+		else{
+			int range = (2) + 1;
+			ret = (int)(Math.random()* range) - 1;
+		}
+		return ret;
+	}
 
 	// moves generater
 	private List<Move> makeMoves(Board b){
@@ -127,7 +276,7 @@ public class TicTacToe {
 			if(!temp[0].equals("")){
 				strBoard.add(temp);
 			}
-		}
+		}	
 	}
 
 	public void printBoard(){

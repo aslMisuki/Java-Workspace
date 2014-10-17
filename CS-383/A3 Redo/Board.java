@@ -1,9 +1,10 @@
-package assignment03;
+package A3redo;
 
 
 import java.util.*;
 /*
- * 
+ * handles board creation, empty fill, and printout
+ * also are board states
  */
 public class Board { // creates and fills the board
 
@@ -11,17 +12,7 @@ public class Board { // creates and fills the board
 	private int rowDim;
 	private int k;
 	private boolean isEmpty;
-	
-    private final int[][] victoryIndices = {
-            {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, 	//horizontal # of horizontal wins = 
-            {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, 	// vertical
-            {0, 4, 8}, {2, 4, 6}};				// diagonal
-    
-    public static final char MAX_PLAYER = 'X';
-    public static final char MIN_PLAYER = 'O';
-    public static final char UNPLAYED = '.';
-    
-	private char[] boardState;
+	private boolean isSingleLine;
 
 	private ArrayList<String[]> board;
 
@@ -100,6 +91,7 @@ public class Board { // creates and fills the board
 		colDim = k;
 		rowDim = k;
 		this.k = k;
+		isSingleLine = false;
 		checkEmpty();
 	}
 
@@ -107,6 +99,7 @@ public class Board { // creates and fills the board
 		rowDim = 1;
 		colDim = k;
 		this.k = (int)Math.sqrt((double)k); // this is the board dimensions
+		isSingleLine = true;
 		checkEmpty();
 	}
 
@@ -118,6 +111,9 @@ public class Board { // creates and fills the board
 		return isEmpty;
 	}
 
+	public boolean isSingleLine(){
+		return isSingleLine;
+	}
 	
 	public String toString(){ // prints the board
 		String print = "";
@@ -131,14 +127,5 @@ public class Board { // creates and fills the board
 		print+= "the k = " + k;
 		return print;
 	}
-	
-    int countPlayed(char target) {
-        int count = 0;
-        for (char c: boardState) {
-            if (c == target) {
-                count++;
-            }
-        }
-        return count;
-    }
+
 }
