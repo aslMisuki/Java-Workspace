@@ -1,4 +1,4 @@
-package A3redo;
+package assignment03;
 public class Move implements Comparable {
 
 	private final int xIndex;
