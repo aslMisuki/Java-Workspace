@@ -127,5 +127,4 @@ public class Board { // creates and fills the board
 		print+= "the k = " + k;
 		return print;
 	}
-
 }
