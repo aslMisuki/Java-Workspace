@@ -47,7 +47,7 @@ public class Car{
 			return doors;
 		case "persons":
 			return persons;
-		case "lugBoot":
+		case "lug_boot":
 			return lugBoot;
 		case "safety":
 			return safety;

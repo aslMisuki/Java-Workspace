@@ -99,7 +99,7 @@ public class FJDQuery{
 	private void calcProb(ArrayList<Car> l){ // just a counting problem now
 		//System.out.println(query.getProbOf().length);
 		
-		Counting count = new Counting(query.getProbOf().length); // used to keep track of counts
+		Counting count = new Counting(query, l); // used to calculate 
 
 		
 		
@@ -114,9 +114,12 @@ public class FJDQuery{
 	 *  vgood 0.03762
 	 */
 	private void run(){ // runs the program
-		//TODO: Testing
+		//TODO: Testing remove print here!
 		query.printQuery();
-		if(query.getNumElements() > 0){
+		if(!query.isValid()){
+			System.out.println("Invalid Query!");
+		}
+		else if(query.getNumElements() > 0){
 			fillGivenList();
 			calcProb(givenList);
 		}
@@ -133,13 +136,12 @@ public class FJDQuery{
 	// reads line by line and add them to an arrayList to be returned
 	//takes in a File and either "query" or "data" as arguments
 	private void parseFile(File file, String mode) throws FileNotFoundException{ 
-
 		Scanner br = new Scanner(file);
 		String line = "";
 		String[] temp;
 		Car car;
 		query = new Query();
-
+		
 		while(br.hasNext()){
 			line = br.nextLine();
 			switch(mode){
@@ -176,7 +178,7 @@ public class FJDQuery{
 
 	public static void main(String args[]) throws IOException{
 
-		String mode = "localSingle"; //"localSingle" or "local3Lines" or "edlab"
+		String mode = "local3Lines"; //"localSingle" or "local3Lines" or "edlab"
 		File file = null;
 
 		switch(mode){

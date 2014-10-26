@@ -4,14 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.*;
 
-import A3redo.Board;
 
 public class Query{
 
 	private ArrayList<String> query;
-	String[][]given;
+	private String[][]given;
 
-	String s;
+	private String s;
 
 	public Query(){ // constructor
 		query = new ArrayList<String>();
@@ -22,8 +21,6 @@ public class Query{
 	public void addLine(String line){
 		query.add(line);
 	}
-
-
 	//==== get methods ====
 
 	/*
@@ -161,5 +158,16 @@ public class Query{
 		}
 
 	}
-
+	
+	public boolean isValid(){ // does not check for duplicates
+		if(getProbOf().length < 1){
+			return false;
+		}
+		if(query.size() > 7){
+			return false;
+		}
+		else 
+			return true;
+			
+	}
 }
