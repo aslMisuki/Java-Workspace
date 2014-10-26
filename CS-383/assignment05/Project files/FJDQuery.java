@@ -50,48 +50,59 @@ public class FJDQuery{
 		// go through list and grab all cars that have 1 element to be filtered later
 
 		for(Car c : carList){ // goes through each car in carList
-			att = allEleLine[0][0]; // starting with just the first att
+			att = allEleLine[0][0]; // starting with just the first att to givenList
 			for(int i=0; i<allEleLine[0].length-1;i++){ // length of first arg
 				if(c.getThis(att).equals(allEleLine[0][i+1])){
 					givenList.add(c);
 				}
 			}
 		}
+		carList = null; // release the carlist data
 		attCount++;
-		System.out.println(query.getNumAttrib());
-		for(int a = attCount; a<query.getNumAttrib(); a++){
-			for(Car c : carList){ // goes through each car in carList
-				att = allEleLine[a][0]; 
-				
-				for(int i=1; i<=allEleLine[a].length-2;i++){ // through all elements
 
-					if(c.getThis(att).equals(allEleLine[a][i]) == false){
-						System.out.println("Comparing "+c.getThis(att) + " and " + allEleLine[a][i]);
-//						System.out.print("removing: ");
-//						givenList.get(counter).printCarShort();
-						sameCount=false;
-						//System.out.println(givenList.size());
+		for(int i=0; i<givenList.size(); i++){ // all cars
+			for(int a = attCount; a <allEleLine[a].length; a++){ // all att
+				att = allEleLine[a][0];
+				for(int e = 1; e<allEleLine[a].length; e++){	// all ele
+					//System.out.println("Comparing " + givenList.get(i).getThis(att) + " with "+ allEleLine[a][e]);
+					if(givenList.get(i).getThis(att).equals(allEleLine[a][e]) == true){
+						sameCount = true;
 					}
-					else{
-						sameCount=true;
-					}
-
 				}
+				//System.out.println(sameCount);
 				if(sameCount == false){
-					givenList.remove(counter);
-					counter--;
+					//System.out.print("removing: ");
+					//givenList.get(i).printCarShort();
+					givenList.remove(i);
+					i--;
 				}
-				counter++; // counts the index for givenList;
+				sameCount = false;
 			}
 		}
 
+//		int countp =0;
+//		for(Car a: givenList){
+//			System.out.print(countp+ " ");
+//			a.printCarShort();
+//			countp++;
+//		}
+	}
+	
+	
+//	   buying       v-high, high, med, low
+//	   maint        v-high, high, med, low
+//	   doors        2, 3, 4, 5-more
+//	   persons      2, 4, more
+//	   lug_boot     small, med, big
+//	   safety       low, med, high
+//	   car 		
+	private void calcProb(ArrayList<Car> l){ // just a counting problem now
+		//System.out.println(query.getProbOf().length);
+		
+		Counting count = new Counting(query.getProbOf().length); // used to keep track of counts
 
-			int countp =0;
-			for(Car a: givenList){
-				System.out.print(countp+ " ");
-				a.printCarShort();
-				countp++;
-			}
+		
+		
 	}
 
 	//==== standard methods ====
@@ -105,7 +116,16 @@ public class FJDQuery{
 	private void run(){ // runs the program
 		//TODO: Testing
 		query.printQuery();
-		fillGivenList();
+		if(query.getNumElements() > 0){
+			fillGivenList();
+			calcProb(givenList);
+		}
+		else{
+			calcProb(carList);
+		}
+		
+
+
 
 
 	}
@@ -156,7 +176,7 @@ public class FJDQuery{
 
 	public static void main(String args[]) throws IOException{
 
-		String mode = "local3Lines"; //"localSingle" or "local3Lines" or "edlab"
+		String mode = "localSingle"; //"localSingle" or "local3Lines" or "edlab"
 		File file = null;
 
 		switch(mode){

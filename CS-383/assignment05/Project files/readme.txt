@@ -7,7 +7,7 @@ What is working
 	- Parsing the car.data file
 	- Size is correct so that is good (1728)
 	- Single probabilities are good
-
+	- The givenList now collects and filters the correct given data (I think/Hope)
 
 What is sort of working
 
