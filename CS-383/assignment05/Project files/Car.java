@@ -6,8 +6,8 @@ public class Car{
 	private String buying, maint, doors, persons, lugBoot, safety, car;
 
 	
-//	   buying       v-high, high, med, low
-//	   maint        v-high, high, med, low
+//	   buying       vhigh, high, med, low
+//	   maint        vhigh, high, med, low
 //	   doors        2, 3, 4, 5-more
 //	   persons      2, 4, more
 //	   lug_boot     small, med, big
@@ -36,6 +36,30 @@ public class Car{
 	
 	//==== get methods ====
 	
+	public String getThis(String str){
+		
+		switch(str){
+		case "buying":
+			return buying;
+		case "maint":
+			return maint;
+		case "doors":
+			return doors;
+		case "persons":
+			return persons;
+		case "lugBoot":
+			return lugBoot;
+		case "safety":
+			return safety;
+		case "car":
+			return car;
+		default:
+			return str;
+		}
+		
+	}
+	
+	
 	public String getBuying(){
 		return buying;
 	}
@@ -63,6 +87,7 @@ public class Car{
 	public String getCar(){
 		return car;
 	}
+	
 	
 	public void printCarInfo(){
 		System.out.println("Information for this car: ");

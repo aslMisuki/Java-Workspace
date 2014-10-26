@@ -12,9 +12,9 @@ public class Counting{
 //	   lug_boot     small, med, big
 //	   safety       low, med, high
 
-	double[] buying = {0,0,0,0}; 	// v-high, high, med, low
-	double[] maint = {0,0,0,0,}; 	// v-high, high, med, low
-	double[] doors = {0,0,0,0,0};	// 2, 3, 4, 5, more
+	double[] buying = {0,0,0,0}; 	// vhigh, high, med, low
+	double[] maint = {0,0,0,0,}; 	// vhigh, high, med, low
+	double[] doors = {0,0,0,0};		// 2, 3, 4, 5more
 	double[] persons = {0,0,0};		// 2, 4, more
 	double[] lugBoot = {0,0,0};		// small, med, big
 	double[] safety = {0,0,0};		// low, med, high
@@ -22,7 +22,7 @@ public class Counting{
 	//distributions
 	double[] dBuying = {0,0,0,0};	// v-high, high, med, low
 	double[] dMaint = {0,0,0,0};	// v-high, high, med, low
-	double[] dDoors = {0,0,0,0,0};	// 2, 3, 4, 5, more
+	double[] dDoors = {0,0,0,0};	// 2, 3, 4, 5more
 	double[] dPersons = {0,0,0};	// 2, 4, more
 	double[] dLugboot = {0,0,0};	// small, med, big
 	double[] dSafety = {0,0,0};	// low, med, high
