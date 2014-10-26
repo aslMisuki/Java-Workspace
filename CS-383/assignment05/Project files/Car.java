@@ -3,14 +3,23 @@ package assignment05;
 import java.util.*;
 
 public class Car{
-	private String buying, maint, doors, persons, lugboot, safety, car;
+	private String buying, maint, doors, persons, lugBoot, safety, car;
 
-	public Car(String buying, String maint, String doors, String persons, String lugboot, String safety, String car ){
+	
+//	   buying       v-high, high, med, low
+//	   maint        v-high, high, med, low
+//	   doors        2, 3, 4, 5-more
+//	   persons      2, 4, more
+//	   lug_boot     small, med, big
+//	   safety       low, med, high
+// 	   car			unacc, acc, good, vgood	
+	
+	public Car(String buying, String maint, String doors, String persons, String lugboot, String safety, String car ){ // constructor
 		this.buying = buying;
 		this.maint = maint;
 		this.doors = doors;
 		this.persons = persons;
-		this.lugboot = lugboot;
+		this.lugBoot = lugboot;
 		this.safety = safety;
 		this.car = car;
 	}
@@ -20,7 +29,7 @@ public class Car{
 		this.maint = "";
 		this.doors = "";
 		this.persons = "";
-		this.lugboot = "";
+		this.lugBoot = "";
 		this.safety = "";
 		this.car = "";
 	}
@@ -44,7 +53,7 @@ public class Car{
 	}
 	
 	public String getLugBoot(){
-		return lugboot;
+		return lugBoot;
 	}
 	
 	public String getSafety(){
@@ -55,4 +64,18 @@ public class Car{
 		return car;
 	}
 	
+	public void printCarInfo(){
+		System.out.println("Information for this car: ");
+		System.out.println("Buying: " + buying);
+		System.out.println("Maintenance: " + maint);
+		System.out.println("Doors: " + doors);
+		System.out.println("Persons: " + persons);
+		System.out.println("lugboot: " + lugBoot);
+		System.out.println("safety: " + safety);
+		System.out.println("car: " + car);
+	}
+	
+	public void printCarShort(){
+		System.out.println(buying + " " + maint + " " + doors + " " + persons + " " + lugBoot + " " + safety + " " + car);
+	}
 }
