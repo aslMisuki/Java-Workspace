@@ -35,44 +35,72 @@ public class Counting{
 		count(cl);
 		//counters
 	}
-	
+
 	private void count(ArrayList<Car> cl){
-		double[] countTable = new double[table.size()];
+		double[] countTable = new double[table.size()]; // used to count instances of joint elements
 		boolean match = false;
-		
+
 		for(int i=0; i<countTable.length; i++){
 			countTable[i] = 0;
 		}
+		//////////////////////////////////////
 		int index =0;
-		
+		int trueCount = 0;
+		int eleArrayCount = 0;
+
 		double size = cl.size();
 		String[] eleArray;
-		for(Car c: cl){// all cars
-			for(String s: table){ // all joint in table
-				eleArray = s.split(" ");
-				for(String e: eleArray){ // elements
-					for(String p: prob){ // probability of..
-						if(c.getThis(p).equals(e)){
-							match = true;
-						}
+
+		// this is good for single arguments but does not check for both
+
+
+		// getting all different permutations of joint elements to select from cl
+		// used to compare with cars in the sample
+		// t = unacc
+		for(String t : table){
+			eleArray = t.split(" ");
+
+
+			// getting all cars from given sample
+			// now we have all cars
+			for(Car c: cl){
+
+
+
+
+				// getting an array of the probability of 
+				//used to get info from cars in given sample
+				// p = car
+				for(String p : prob){
+
+					if(c.getThis(p).equals(eleArray[eleArrayCount])){ 
+						match = true;
+						trueCount++;
 					}
+					eleArrayCount++;
 				}
-				if(match == true){
+				eleArrayCount = 0;
+				if(match == true && trueCount == prob.length){
 					countTable[index] += 1;
 				}
 				match = false;
-				index++;
+				trueCount = 0;
 			}
+			index+=1; // increment where we are on count table
+
 		}
-		
-		for(int i=0; i<table.size(); i++){
-			System.out.println(table.get(i) + " " + countTable[i]);
-			
+
+		double total = 0;
+		index = 0;
+
+		for(String s: table){
+			System.out.println(s +" " + countTable[index]/cl.size());
+			total += countTable[index];
+			index++;
 		}
-		
-		
+		//System.out.println("total: " + total + "\n Size: " + cl.size());
 	}
-	
+
 	// just sets the attributes into the table
 	// no calculating
 	private ArrayList<String> createTable(Query q){
@@ -80,7 +108,7 @@ public class Counting{
 		ArrayList<String[]> elements = new ArrayList<String[]>();
 		ArrayList<String> temp = new ArrayList<String>();
 		String emptyStr= "";
-		
+
 		for(String s : prob){
 			switch(s){
 			case "buying":
@@ -119,18 +147,19 @@ public class Counting{
 		permutations(elements, temp, 0, emptyStr);
 
 		String holder = "";
-	
+
 		for(int i=0; i<temp.size(); i++){
 			holder = temp.get(0);
 			temp.add(holder.substring(1));
 			temp.remove(0) ;
 		}
-		
-		for(String str : temp){
-			System.out.println(str); // each str in temp has both elements
-		}
+
+		//		for(String str : temp){
+		//			System.out.println(str); // each str in temp has both elements
+		//		}
 		return temp;
 	}
+
 
 	void permutations(ArrayList<String[]> elementList, ArrayList<String> dest, int index, String current)
 	{

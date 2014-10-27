@@ -115,7 +115,6 @@ public class Query{
 		String[] s;
 		int spaceSub;
 
-		System.out.println();
 		for(int i=1; i<query.size(); i++){
 			line = query.get(i);
 			spaceSub = line.indexOf(" ");

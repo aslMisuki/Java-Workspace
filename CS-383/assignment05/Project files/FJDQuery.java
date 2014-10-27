@@ -115,7 +115,7 @@ public class FJDQuery{
 	 */
 	private void run(){ // runs the program
 		//TODO: Testing remove print here!
-		query.printQuery();
+		//query.printQuery();
 		if(!query.isValid()){
 			System.out.println("Invalid Query!");
 		}
@@ -163,7 +163,6 @@ public class FJDQuery{
 		String[] tokens;
 		if(mode.equals("query")){
 			return tokens = s.split(" ");
-
 		}
 		else{
 			return tokens = s.split(",");
@@ -172,7 +171,7 @@ public class FJDQuery{
 
 	public static void main(String args[]) throws IOException{
 
-		String mode = "localSingle"; //"localSingle" or "local3Lines" or "edlab"
+		String mode = "local3Lines"; //"localSingle" or "local3Lines" or "edlab"
 		File file = null;
 
 		switch(mode){
