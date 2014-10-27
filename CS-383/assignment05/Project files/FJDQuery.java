@@ -14,12 +14,12 @@ public class FJDQuery{
 	private ArrayList<Car>givenList;
 
 	// constructor
-	public FJDQuery(File file) throws FileNotFoundException{
+	public FJDQuery(File file, File car) throws FileNotFoundException{
 		carList = new ArrayList<Car>();
 		givenList = new ArrayList<Car>();
 
 		//TODO: change to "./car.data" for submission
-		File cardata = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment05/Resources/car.data");
+		File cardata = car;
 		parseFile(cardata, "data"); // fills carList with cars from file
 		parseFile(file, "query"); // parses the query file;
 		//System.out.println(query.getNumElements());
@@ -171,20 +171,24 @@ public class FJDQuery{
 
 	public static void main(String args[]) throws IOException{
 
-		String mode = "local3Lines"; //"localSingle" or "local3Lines" or "edlab"
+		String mode = "edlab"; //"localSingle" or "local3Lines" or "edlab"
 		File file = null;
-
+		file cardata = null;
+		
 		switch(mode){
 		case "localSingle" : 
 			file = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment05/Project files/testSingle.txt");
+			cardata = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment05/Resources/car.data");
 			break;
 		case "local3Lines":
 			file = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment05/Project files/test3Lines.txt");
+			cardata = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment05/Resources/car.data");
 			break;
 
 		case "edlab" :
 			String fileDir = args[0];
 			file = new File(fileDir);
+			cardata = new File("./car.data");
 			break;
 		default: 
 			System.out.println("bad mode");
@@ -193,7 +197,7 @@ public class FJDQuery{
 
 		if(file.canRead()){
 			//System.out.println("file can be read");
-			FJDQuery Cars = new FJDQuery(file);
+			FJDQuery Cars = new FJDQuery(file, cardata);
 			Cars.run();
 		}
 		else{
