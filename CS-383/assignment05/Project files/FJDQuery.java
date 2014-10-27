@@ -173,7 +173,7 @@ public class FJDQuery{
 
 		String mode = "edlab"; //"localSingle" or "local3Lines" or "edlab"
 		File file = null;
-		file cardata = null;
+		File cardata = null;
 		
 		switch(mode){
 		case "localSingle" : 
