@@ -87,7 +87,6 @@ public class Counting{
 				trueCount = 0;
 			}
 			index+=1; // increment where we are on count table
-
 		}
 
 		double total = 0;
