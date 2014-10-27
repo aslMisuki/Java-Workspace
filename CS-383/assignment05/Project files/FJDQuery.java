@@ -126,11 +126,6 @@ public class FJDQuery{
 		else{
 			calcProb(carList);
 		}
-		
-
-
-
-
 	}
 
 	// reads line by line and add them to an arrayList to be returned
@@ -175,10 +170,9 @@ public class FJDQuery{
 		}
 	}
 
-
 	public static void main(String args[]) throws IOException{
 
-		String mode = "local3Lines"; //"localSingle" or "local3Lines" or "edlab"
+		String mode = "localSingle"; //"localSingle" or "local3Lines" or "edlab"
 		File file = null;
 
 		switch(mode){
