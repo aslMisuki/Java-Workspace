@@ -40,15 +40,11 @@ public class TCPClient{
 
 
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in)); // buffer for client user
-
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream()); //creates an obj to send
-
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
 
 		request = inFromUser.readLine();  // reads the client buffer
-
 		outToServer.writeBytes(request + '\n'); // sends to the server
-
 		response = inFromServer.readLine();  // reads from server buffer
 
 		System.out.println("FROM SERVER: " + response); 
