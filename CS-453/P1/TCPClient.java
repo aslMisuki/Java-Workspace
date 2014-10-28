@@ -1,15 +1,19 @@
 package PA1;
 
 import javax.imageio.ImageIO;
-
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.*; 
 import java.net.*; 
 
 
 
 public class TCPClient{
-
+	//options for storing image
+	BufferedImage image;
+	
+	
+	//
 	Socket clientSocket;
 	String request;
 	String response;
@@ -109,41 +113,60 @@ public class TCPClient{
 
 	public static void main(String args[]) throws Exception {
 
-		//		String mode = args[0]; // will have 3 parts, Mode, IP, Port
-		//		String ip = args[1];
-		//		int port = Integer.parseInt(args[2]);
-		//		TCPClient client = new TCPClient(ip, port);
-		//		
-		//		if(mode.toUpperCase().equals("CS")){ // client-server
-		//			if((	ip.toLowerCase().equals("pear.cs.umass.edu") || 
-		//					ip.toLowerCase().equals("plum.cs.umass.edu")) && port == 18765){
-		//						
-		//				client.talkToPearServer();
-		//			}
-		//			else if (ip.toLowerCase().equals("date.cs.umass.edu") && port == 20001){
-		//				client.talkToTestServer();
-		//			}
-		//			else if(ip.toLowerCase().equals("localhost") && port == 6789){
-		//				client.talkToLocalServer();
-		//			}
-		//			else{
-		//				System.out.println("Wrong IP Address and/or port");
-		//			}
-		//			
-		//		}
-		//		else if(mode.toUpperCase().equals("P2P")){
-		//			System.out.println("Not Implemented Yet!");
-		//		}
-		//		else{
-		//			System.out.println("wrong mode!");
-		//		}
+				String mode = args[0]; // will have 3 parts, Mode, IP, Port
+				String ip = args[1];
+				
+				mode = "CS";
+				ip = "test";
+				
+				mode = mode.toUpperCase();
+				ip = ip.toLowerCase();
+				
+				int port = Integer.parseInt(args[2]);
+				TCPClient client = new TCPClient(ip, port);
+				
+				switch(mode){
+					case "CS" :
+						switch(ip){
+							case "pear.cs.umass.edu" :
+							case "plum.cs.umass.edu" :
+								if(port == 18765){
+									client.talkToPearServer();
+								}
+								break;
+							case "date.cs.umass.edu" :
+								if(port == 20001){	//19876 = UDP port // used to test the server
+									client.talkToTestServer();
+								}
+								break;
+							case "localhost":
+								if(port == 6789){
+									client.talkToLocalServer();
+								}
+								break;
+							case "test" :
+								TCPClient toPear = new TCPClient("pear.cs.umass.edu", 18765);
+								toPear.talkToPearServer();
+								break;
+							default:
+								System.out.println("Wrong IP Address and/or port");
+								break;
+						}
+						break;
+					case "P2P":
+						System.out.println("Not Implemented Yet!");
+						break;
+					default:
+						System.out.println("wrong mode!");
+						break;
+				}
 
-		TCPClient toLocal = new TCPClient ("localhost", 6789);
-		TCPClient toPear = new TCPClient("pear.cs.umass.edu", 18765);
-		TCPClient toPlum = new TCPClient("plum.cs.umass.edu", 18765);
-		TCPClient toTest = new TCPClient("date.cs.umass.edu", 20001); //19876 = UDP port // used to test the server
 
-		toPear.talkToPearServer();
+//		TCPClient toLocal = new TCPClient ("localhost", 6789);
+//		TCPClient toPlum = new TCPClient("plum.cs.umass.edu", 18765);
+//		TCPClient toTest = new TCPClient("date.cs.umass.edu", 20001); 
+
+
 
 		//toTest.talkToTestServer();
 		//toLocal.talkToLocalServer();
