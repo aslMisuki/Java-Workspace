@@ -45,13 +45,18 @@ public class TCPClient{
 
 	public void talkToLocalServer() throws UnknownHostException, IOException{
 	
-
+		//request segment
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in)); // buffer to read user input
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream()); //creates an obj to send
+		
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
 
 		request = inFromUser.readLine();  // reads the client buffer
 		outToServer.writeBytes(request + '\n'); // sends to the server
+		
+		//request segment end
+		
+		
 		response = inFromServer.readLine();  // reads from server buffer
 
 		System.out.println("FROM SERVER: " + response); 
@@ -74,44 +79,6 @@ public class TCPClient{
 	}
 
 	public void talkToPlumServer() throws IOException{
-		request =  "GET Redsox.jpg";
-		
-		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		outToServer.writeBytes(request + '\n'); //("GET "+request+" HTTP/1.1\r\n");
-		//outToServer.writeBytes("Host: "+hostname+":"+ port +"\r\n\r\n");
-		outToServer.flush();
-		
-		DataInputStream inFromServer = new DataInputStream(clientSocket.getInputStream());
-		
-		
-		
-		OutputStream dos = new FileOutputStream("Redsox.jpg"); // used to make the .jpg file
-		int count;
-		//BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
-		
-		byte[] buffer = new byte[2048];// buffer is too small
-		boolean eohFound = false;
-		while ((count = inFromServer.read(buffer)) != -1)
-		{
-		    if(!eohFound){
-		        String string = new String(buffer, 0, count);
-		        int indexOfEOH = string.indexOf("\r\n\r\n");
-		        if(indexOfEOH != -1) {
-		            count = count-indexOfEOH-4;
-		            buffer = string.substring(indexOfEOH+4).getBytes();
-		            eohFound = true;
-		        } else {
-		            count = 0;
-		        }
-		    }
-		  dos.write(buffer, 0, count);
-		  dos.flush();
-		}
-		inFromServer.close();
-
-	}
-
-	public void talkToPearServer() throws IOException{
 		request =  "Redsox.jpg";
 		// dataoutputstream writes to clientSocket.getoutputstrteam()
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
@@ -123,17 +90,17 @@ public class TCPClient{
 		System.out.println("Getting InputStream from Server");
 		DataInputStream inFromServer = new DataInputStream(clientSocket.getInputStream());
 		
-		OutputStream dos = new FileOutputStream("Redsox.jpg");
-		int count;
-		byte[] buffer = new byte[60000];
+		FileOutputStream dos = new FileOutputStream("Redsox.jpg");
+		
+		int count = -1;
+		byte[] buffer = new byte[1024];
 		boolean eohFound = false;
 		
-		
-		while ((count = inFromServer.read(buffer)) != -1)
-		{
+//		
+	while ((count = inFromServer.read(buffer)) != -1){ // count = # of bytes read
 		    if(!eohFound){
 		        String string = new String(buffer, 0, count);
-		        int indexOfEOH = string.indexOf("\n\n");
+		        int indexOfEOH = string.indexOf("\r\n\r\n");
 		        System.out.println("Index of end of header " + indexOfEOH);
 		        if(indexOfEOH != -1) {
 		            count = count-indexOfEOH-2;
@@ -143,11 +110,86 @@ public class TCPClient{
 		            count = 0;
 		        }
 		    }
-		  System.out.println("Writing to File now");
+		  System.out.println(" number of bytes read is : " + count);
 		  dos.write(buffer, 0, count);
-		  System.out.println("Done Writing to File");
 		  dos.flush();
 		}
+		
+		System.out.println("Closing outToServer");
+		outToServer.close();
+		System.out.println("Closing inFromServer");
+		inFromServer.close();
+		System.out.println("Closing clientSocket");
+		clientSocket.close();
+
+		// probably need to parse this
+		//				200 OK		-> status code
+		//				BODY_BYTE_OFFSET_IN_FILE: 0 	-> byte off set(always 0 for CS)
+		//				BODY_BYTE_LENGTH: 58241			-> byte length ()
+		//				\n\n							-> two new lines to separate header from payload
+		//				<bytes of body follow here>
+		//
+
+	}
+
+	public void talkToPearServer() throws IOException{
+		request = "Redsox.jpg";
+		// dataoutputstream writes to clientSocket.getoutputstrteam()
+		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+		//send request to server
+		System.out.println("Writing request out to server: " + "GET: " +request+ '\n' );
+		outToServer.writeBytes("GET "+request+ '\n');
+		outToServer.flush();
+		
+		System.out.println("Getting InputStream from Server");
+
+		
+		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //buffer for server reply
+		
+		//BufferedInputStream inFromServer = new BufferedInputStream(clientSocket.getInputStream()); //buffer for server reply
+		
+		//DataInputStream inFromServer = new DataInputStream(clientSocket.getInputStream());
+        
+		int bSize = 0;
+		boolean eoh = false; // boolean for end of file
+		String[] lengthArray;
+		FileOutputStream dos = new FileOutputStream("Redsox.jpg");
+		
+		int count;
+		byte[] buffer = new byte[1024];
+		boolean eohFound = false;
+		int indexOfEOH = -1;
+		
+
+		
+		System.out.println(inFromServer.readLine()); // status
+		System.out.println(inFromServer.readLine()); // offset
+		lengthArray = inFromServer.readLine().split(" ");
+		
+		bSize = Integer.parseInt(lengthArray[1]);
+		
+		System.out.println(inFromServer.readLine()); // newline
+		
+		// writing to file
+		System.out.println("Writing to .jpg File now");
+		
+		System.out.println("Making .jpg File");
+		
+		//buffer = new byte[1024*10];
+		
+		//inFromServer.read(buffer);
+		
+//		
+//		System.out.println(" number of bytes read is : " + count);
+//		dos.write(buffer, 0, bSize);
+//		dos.flush();
+//		
+		
+
+		
+		
+		// just opening and closing the socket
+		
 		
 		System.out.println("Closing outToServer");
 		outToServer.close();
@@ -175,20 +217,20 @@ public class TCPClient{
 				TCPClient client = new TCPClient();
 				
 				switch(run){
-				case "shell":
-					mode = args[0]; // will have 3 parts, Mode, IP, Port
-					ip = args[1];
-					port = Integer.parseInt(args[2]);
-					client = new TCPClient(ip, port);
-					break;
-				case "hardwired":
-					mode = "CS";
-					ip = "test";
-					port = 18765;
-					break;
-				default:
-					System.out.println("Bad run method");
-					break;
+					case "shell":
+						mode = args[0]; // will have 3 parts, Mode, IP, Port
+						ip = args[1];
+						port = Integer.parseInt(args[2]);
+						client = new TCPClient(ip, port);
+						break;
+					case "hardwired":
+						mode = "CS";
+						ip = "test";
+						port = 18765;
+						break;
+					default:
+						System.out.println("Bad run method");
+						break;
 				}
 
 				
@@ -219,7 +261,7 @@ public class TCPClient{
 								}
 								break;
 							case "test" :
-								TCPClient toPear = new TCPClient("pear.cs.umass.edu", 18765);
+								TCPClient toPear = new TCPClient("plum.cs.umass.edu", 18765);
 								toPear.talkToPearServer();
 								break;
 							default:
@@ -236,9 +278,7 @@ public class TCPClient{
 				}
 
 
-//		TCPClient toLocal = new TCPClient ("localhost", 6789);
-//		TCPClient toPlum = new TCPClient("plum.cs.umass.edu", 18765);
-//		TCPClient toTest = new TCPClient("date.cs.umass.edu", 20001); 
+
 
 
 
