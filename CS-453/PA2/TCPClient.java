@@ -118,6 +118,7 @@ public class TCPClient{
 		DataOutputStream outToPeer = new DataOutputStream(peerSocket.getOutputStream());
 		DataInputStream inFromPeer = new DataInputStream(new BufferedInputStream(peerSocket.getInputStream()));
 		
+		System.out.println("GET "+request+".torrent\n");
 		outToPeer.writeBytes("GET "+request+".torrent\n");
 		outToPeer.flush();
 
