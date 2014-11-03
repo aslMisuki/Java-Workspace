@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.*; 
 import java.net.*;
 
-
-
 public class TCPClient{
 
 	//header data
@@ -18,6 +16,7 @@ public class TCPClient{
 	int port;
 
 	Socket clientSocket;
+	Socket peerSocket;
 
 	public TCPClient(String hostname, int port) throws UnknownHostException, IOException{
 		clientSocket = new Socket(hostname, port); //creates a socket to use
@@ -91,35 +90,56 @@ public class TCPClient{
 	}
 
 	public void talkToPearServer() throws IOException{
-		request = "Redsox.jpg";
-		System.out.println("Sending Get Request");
-		// dataoutputstream writes to clientSocket.getoutputstrteam()
+
+		System.out.println("Sending IAM Request");
+		
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-
-
-
-		//requestig metadata
-
-		System.out.println("Writing request for MetaData: " + "GET: " +request+ ".torrent" + '\n' );
-		outToServer.writeBytes("GET "+request+ ".torrent" + '\n');
+		DataInputStream inFromServer = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+		
+		//contact grading server
+		System.out.println("contacting grading server: " + hostname +":"+ port);
+		request = "IAM 25004174";
+		
+		outToServer.writeBytes(request + '\n');
 		outToServer.flush();
+		
+		System.out.println("IAM response: \n" + inFromServer.readLine()); 
+		
+		//requestig metadata
+		request = "Redsox.jpg";
+		System.out.println("Opening Socket for MetaData: " + hostname + ":" + 19876);
+		
+		Socket peerSocket = new Socket(hostname, 19876); // connection refused
+		
+		System.out.println("Writing request for MetaData: " + "GET: " +request+ ".torrent" + '\n');
+		System.out.println("Writing request to " + hostname + ":" + 19876);
+		
+		
+		DataOutputStream outToPeer = new DataOutputStream(peerSocket.getOutputStream());
+		DataInputStream inFromPeer = new DataInputStream(new BufferedInputStream(peerSocket.getInputStream()));
+		
+		outToPeer.writeBytes("GET "+request+".torrent\n");
+		outToPeer.flush();
 
 		System.out.println("Getting InputStream(metadata) from Server");
-
-		int bSize = 0;
-		boolean eoh = false; // boolean for end of file
-		boolean eOMD = false;
-		MetaData meta = new MetaData(); // calling this multiple times will yield different peers lets start with calling this 3 times
-		String[] lengthArray;
-
-		DataInputStream inFromServer = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-		OutputStream outFromServer = clientSocket.getOutputStream();   
-
-		while(!eOMD){
-			eOMD = meta.parseMetaData(inFromServer.readLine());
-		}
+		System.out.println(inFromPeer.readLine());
 		
-		System.out.println(meta.toString());
+		outToPeer.close();
+		inFromPeer.close();
+		peerSocket.close();
+
+//		int bSize = 0;
+//		boolean eoh = false; // boolean for end of file
+//		boolean eOMD = false;
+//		MetaData meta = new MetaData(); // calling this multiple times will yield different peers lets start with calling this 3 times
+//		String[] lengthArray;    
+		
+//		while(!eOMD){
+//			System.out.println("trying to parse metadata");
+//			eOMD = meta.parseMetaData(inFromServer.readLine());
+//		}
+//		
+//		System.out.println(meta.toString());
 		
 		//TODO: we are going to assume this works, meta data is retrieved and parsed
 		
@@ -159,7 +179,10 @@ public class TCPClient{
 
 	}
 
-	//======== Get methods
+
+	private void computeChecksum(){
+		// total bytes / 4 = # of words, then we XOR 1st byte of Word1 with word2, word3... etc.
+	}
 
 	public static void main(String args[]) throws Exception {
 
@@ -178,8 +201,7 @@ public class TCPClient{
 			break;
 		case "IDE":
 			mode = "P2P";
-			ip = "test";
-			port = 19876;
+			ip = "grade";
 			break;
 		default:
 			System.out.println("Bad run method");
@@ -231,10 +253,15 @@ public class TCPClient{
 				TCPClient toPear = new TCPClient("pear.cs.umass.edu", 19876);
 				toPear.talkToPearServer();
 				break;
+			case "grade" :
+				TCPClient toGrade = new TCPClient("date.cs.umass.edu", 20001);
+				toGrade.talkToPearServer();
+				break;
 			default:
 				System.out.println("Wrong IP Address and/or port");
 				break;
 			}
+			break;
 		default:
 			System.out.println("wrong mode!");
 			break;

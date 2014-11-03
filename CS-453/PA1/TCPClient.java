@@ -101,7 +101,7 @@ private boolean parseHeaderLine(String line){
 	public void talkToPearServer() throws IOException{
 		request = "Redsox.jpg";
 		System.out.println("Sending Get Request");
-		// dataoutputstream writes to clientSocket.getoutputstrteam()
+		
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 		//send request to server
 		System.out.println("Writing request out to server: " + "GET: " +request+ '\n' );
@@ -115,21 +115,15 @@ private boolean parseHeaderLine(String line){
 		String[] lengthArray;
 
 		DataInputStream inFromServer = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-		OutputStream outFromServer = clientSocket.getOutputStream();   
-
 		
 		System.out.println(inFromServer.readLine()); // status
 		
 		while(!eoh){
 			eoh = parseHeaderLine(inFromServer.readLine());
 		}
-
-//		System.out.println(inFromServer.readLine()); // offset
-//		String byteLenStr = inFromServer.readLine(); // length
-//		System.out.println(byteLenStr);
-//		lengthArray = byteLenStr.split(" ");
-//		bSize = Integer.parseInt(lengthArray[1]);
-//		System.out.println(inFromServer.readLine()); // newline
+		
+		Socket peerSocket = new Socket("date,cs.umass.edu",19876);
+		
 		
 		byte[] buffer = new byte[1024*5];
 		
@@ -143,12 +137,14 @@ private boolean parseHeaderLine(String line){
 
 		int count;
 
-		while ((count = inFromServer.read(buffer)) != -1) { // while not end of file
-			fileBuffer.write(buffer, 0, count);
+		while ((count = inFromServer.read(buffer)) != -1) { // while not end of datastream
+			fileBuffer.write(buffer, 0, count); // remember that count can be less than buffer.length
 			System.out.println("Data Received : " + count);
 			fileBuffer.flush();
 		}
 
+		fileBuffer.close();
+		fileOut.close();
 		// just closing the socket
 		System.out.println("Closing outToServer");
 		outToServer.close();
@@ -163,6 +159,10 @@ private boolean parseHeaderLine(String line){
 		//				\n\n							-> two new lines to separate header from payload
 		//				<bytes of body follow here>
 		//				
+
+	}
+	
+	private void computeChecksum(){
 
 	}
 
@@ -190,9 +190,6 @@ private boolean parseHeaderLine(String line){
 			System.out.println("Bad run method");
 			break;
 		}
-
-
-
 
 		mode = mode.toUpperCase();
 		ip = ip.toLowerCase();
