@@ -1,4 +1,4 @@
-package pa1;
+package gradingServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -13,10 +13,10 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-import pa1.autograding.GradingServer;
-import pa1.util.BlockRequest;
-import pa1.util.ClientStateMap;
-import pa1.util.SharedServerInfo;
+import gradingServer.GradingServer;
+import gradingServer.BlockRequest;
+import gradingServer.ClientStateMap;
+import gradingServer.SharedServerInfo;
 
 /**
  * @author V. Arun

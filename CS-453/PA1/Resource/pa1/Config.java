@@ -1,4 +1,4 @@
-package pa1;
+package gradingServer;
 
 import java.io.File;
 import java.io.IOException;

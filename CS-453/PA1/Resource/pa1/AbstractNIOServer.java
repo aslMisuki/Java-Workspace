@@ -1,4 +1,4 @@
-package pa1;
+package gradingServer;
 
 import java.io.IOException;
 import java.net.InetAddress;

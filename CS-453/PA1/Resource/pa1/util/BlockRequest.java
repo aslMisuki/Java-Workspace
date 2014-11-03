@@ -1,10 +1,10 @@
-package pa1.util;
+package gradingServer;
 
 import java.net.*;
 import java.nio.channels.*;
 
-import pa1.Config;
-import pa1.autograding.ScrambledFile;
+import gradingServer.Config;
+import gradingServer.ScrambledFile;
 
 /**
  * @author V. Arun

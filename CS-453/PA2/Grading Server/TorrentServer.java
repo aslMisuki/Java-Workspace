@@ -1,4 +1,4 @@
-package gradingServer;
+package PA2;
 
 import java.net.*;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import java.io.File;
 import java.io.IOException;
 
-import gradingServer.GradingServer;
+import PA2.autograding.GradingServer;
 
 /**
  * @author V. Arun

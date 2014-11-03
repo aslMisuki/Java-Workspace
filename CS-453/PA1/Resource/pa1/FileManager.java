@@ -1,10 +1,10 @@
-package pa1;
+package gradingServer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import javax.imageio.stream.FileImageInputStream;
 
-import pa1.autograding.ScrambledFile;
+import gradingServer.ScrambledFile;
 
 /* This file mainly contains static utility methods 
  * related to file IO and checking if requests are

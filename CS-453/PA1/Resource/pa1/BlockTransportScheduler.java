@@ -1,4 +1,4 @@
-package pa1;
+package gradingServer;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -11,7 +11,7 @@ import java.util.TimerTask;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.logging.Logger;
 
-import pa1.util.BlockRequest;
+import gradingServer.BlockRequest;
 
 /**
  * @author V. Arun

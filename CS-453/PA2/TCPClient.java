@@ -109,12 +109,11 @@ public class TCPClient{
 		int bSize = 0;
 		boolean eoh = false; // boolean for end of file
 		boolean eOMD = false;
-		MetaData meta = new MetaData();
+		MetaData meta = new MetaData(); // calling this multiple times will yield different peers lets start with calling this 3 times
 		String[] lengthArray;
 
 		DataInputStream inFromServer = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
 		OutputStream outFromServer = clientSocket.getOutputStream();   
-
 
 		while(!eOMD){
 			eOMD = meta.parseMetaData(inFromServer.readLine());
@@ -122,6 +121,10 @@ public class TCPClient{
 		
 		System.out.println(meta.toString());
 		
+		//TODO: we are going to assume this works, meta data is retrieved and parsed
+		
+		
+		//now we need to store the meta data 
 		//status = inFromServer.readLine(); // should be the status
 
 
@@ -186,7 +189,6 @@ public class TCPClient{
 
 		mode = mode.toUpperCase();
 		ip = ip.toLowerCase();
-
 
 		switch(mode){
 		case "CS" :

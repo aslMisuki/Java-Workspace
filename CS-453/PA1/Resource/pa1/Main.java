@@ -1,8 +1,8 @@
-package pa1;
+package gradingServer;
 
 import java.io.IOException;
 
-import pa1.autograding.GradingServer;
+import gradingServer.GradingServer;
 
 /**
  * @author V. Arun
