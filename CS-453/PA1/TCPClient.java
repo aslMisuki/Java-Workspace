@@ -1,6 +1,7 @@
 package PA1;
 
 import javax.imageio.ImageIO;
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.*; 
@@ -9,8 +10,10 @@ import java.net.*;
 
 
 public class TCPClient{
-	//options for storing image
-	BufferedImage image;
+	
+	//header
+	String status;
+	int bodyByteOffset,bodyByteLength;
 
 
 	//
@@ -33,14 +36,34 @@ public class TCPClient{
 
 	}
 
-	public void splitHeader(){ // split header by with delimiter: \n\n
+private boolean parseHeaderLine(String line){
+		
+//		format: 
+//
+//		200 OK
+//		BODY_BYTE_OFFSET_IN_FILE: 20000
+//		BODY_BYTE_LENGTH: 10000
+//
+//		<bytes of body follow here>		
 
-	}
-
-
-	public int getBlockSize(){ //gets the size of the block from the reply header
-
-		return 0;
+//assume that status code is already parsed
+		String l = line.replace(":", "").toUpperCase();
+		String[] spliter = line.split(" ");
+		
+		switch(spliter[0]){
+		//response to request for torrent metadata
+		case "BODY_BYTE_OFFSET_IN_FILE":
+			bodyByteOffset = Integer.parseInt(spliter[1]);
+			break;
+		case "BODY_BYTE_LENGTH":
+			bodyByteLength = Integer.parseInt(spliter[1]);
+			break;
+		case "": // either empty or a carriage return
+			return true;
+		default:
+			return false;
+		}
+		return false;
 	}
 
 	public void talkToLocalServer() throws UnknownHostException, IOException{
@@ -74,59 +97,6 @@ public class TCPClient{
 		clientSocket.close();
 	}
 
-	public void talkToPlumServer() throws IOException{
-		request =  "Redsox.jpg";
-		// dataoutputstream writes to clientSocket.getoutputstrteam()
-		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		//send request to server
-		outToServer.writeBytes("GET "+request+ '\n');
-		// empty stream
-		outToServer.flush();
-
-		System.out.println("Getting InputStream from Server");
-		DataInputStream inFromServer = new DataInputStream(clientSocket.getInputStream());
-
-		FileOutputStream dos = new FileOutputStream("Redsox.jpg");
-
-		int count = -1;
-		byte[] buffer = new byte[1024];
-		boolean eohFound = false;
-
-		//		
-		while ((count = inFromServer.read(buffer)) != -1){ // count = # of bytes read
-			if(!eohFound){
-				String string = new String(buffer, 0, count);
-				int indexOfEOH = string.indexOf("\n\n");
-				System.out.println("Index of end of header " + indexOfEOH);
-				if(indexOfEOH != -1) {
-					count = count-indexOfEOH-2;
-					buffer = string.substring(indexOfEOH+2).getBytes();
-					eohFound = true;
-				} else {
-					count = 0;
-				}
-			}
-			System.out.println(" number of bytes read is : " + count);
-			dos.write(buffer, 0, count);
-			dos.flush();
-		}
-
-		System.out.println("Closing outToServer");
-		outToServer.close();
-		System.out.println("Closing inFromServer");
-		inFromServer.close();
-		System.out.println("Closing clientSocket");
-		clientSocket.close();
-
-		// probably need to parse this
-		//				200 OK		-> status code
-		//				BODY_BYTE_OFFSET_IN_FILE: 0 	-> byte off set(always 0 for CS)
-		//				BODY_BYTE_LENGTH: 58241			-> byte length ()
-		//				\n\n							-> two new lines to separate header from payload
-		//				<bytes of body follow here>
-		//
-
-	}
 
 	public void talkToPearServer() throws IOException{
 		request = "Redsox.jpg";
@@ -149,12 +119,17 @@ public class TCPClient{
 
 		
 		System.out.println(inFromServer.readLine()); // status
-		System.out.println(inFromServer.readLine()); // offset
-		String byteLenStr = inFromServer.readLine(); // length
-		System.out.println(byteLenStr);
-		lengthArray = byteLenStr.split(" ");
-		bSize = Integer.parseInt(lengthArray[1]);
-		System.out.println(inFromServer.readLine()); // newline
+		
+		while(!eoh){
+			eoh = parseHeaderLine(inFromServer.readLine());
+		}
+
+//		System.out.println(inFromServer.readLine()); // offset
+//		String byteLenStr = inFromServer.readLine(); // length
+//		System.out.println(byteLenStr);
+//		lengthArray = byteLenStr.split(" ");
+//		bSize = Integer.parseInt(lengthArray[1]);
+//		System.out.println(inFromServer.readLine()); // newline
 		
 		byte[] buffer = new byte[1024*5];
 		
@@ -182,7 +157,6 @@ public class TCPClient{
 		System.out.println("Closing clientSocket");
 		clientSocket.close();
 
-		// probably need to parse this
 		//				200 OK		-> status code
 		//				BODY_BYTE_OFFSET_IN_FILE: 0 	-> byte off set(always 0 for CS)
 		//				BODY_BYTE_LENGTH: 58241			-> byte length ()

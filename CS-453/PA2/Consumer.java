@@ -1,14 +1,15 @@
 package PA2;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
-// consumer builds the file
+// gets responses?
 public class Consumer implements Runnable {
 	
-	private final Vector sharedQueue;
+	private final ArrayList<MetaData> sharedQueue; // TODO: may need to be byte[] maybe...
 	private final int SIZE;
 
-	public Consumer(Vector sharedQueue, int size) {
+	public Consumer(ArrayList<MetaData> sharedQueue, int size) {
 		this.sharedQueue = sharedQueue;
 		this.SIZE = size;
 	}

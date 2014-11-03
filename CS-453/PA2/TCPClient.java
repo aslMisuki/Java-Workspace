@@ -9,39 +9,54 @@ import java.net.*;
 
 
 public class TCPClient{
-	
+
 	//header data
-	int numBlocks,fileSize,bodyOffset,bodyLength;
+	int bodyByteOffset,bodyByteLength;
 	String status;
-	
-	
-	//
-	Socket clientSocket;
+
 	String request,response,hostname;
 	int port;
+
+	Socket clientSocket;
 
 	public TCPClient(String hostname, int port) throws UnknownHostException, IOException{
 		clientSocket = new Socket(hostname, port); //creates a socket to use
 		this.hostname = hostname;
 		this.port = port;
 
-		request = "";
-		response = "";
-
 	}
-	public TCPClient(){ // empty client overload
+	
+	public TCPClient(){} // empty client overload
 
-	}
+	// parses the header and returns false if not end of header, and true otherwise
+	private boolean parseHeaderLine(String line){
 
-	// parses the header and returns the end of header index
-	private int parseHead(){
-		
-		return 0;
-	}
+		//		format: 
+		//
+		//		200 OK
+		//		BODY_BYTE_OFFSET_IN_FILE: 20000
+		//		BODY_BYTE_LENGTH: 10000
+		//
+		//		<bytes of body follow here>		
 
-	public int getBlockSize(){ //gets the size of the block from the reply header
+		//assume that status code is already parsed
+		String l = line.replace(":", "").toUpperCase();
+		String[] spliter = line.split(" ");
 
-		return 0;
+		switch(spliter[0]){
+		//response to request for torrent metadata
+		case "BODY_BYTE_OFFSET_IN_FILE":
+			bodyByteOffset = Integer.parseInt(spliter[1]);
+			break;
+		case "BODY_BYTE_LENGTH":
+			bodyByteLength = Integer.parseInt(spliter[1]);
+			break;
+		case "": // either empty or a carriage return
+			return true;
+		default:
+			return false;
+		}
+		return false;
 	}
 
 	public void talkToLocalServer() throws UnknownHostException, IOException{
@@ -75,109 +90,61 @@ public class TCPClient{
 		clientSocket.close();
 	}
 
-	public void talkToPlumServer() throws IOException{
-		request =  "Redsox.jpg";
-		// dataoutputstream writes to clientSocket.getoutputstrteam()
-		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		//send request to server
-		outToServer.writeBytes("GET "+request+ '\n');
-		// empty stream
-		outToServer.flush();
-
-		System.out.println("Getting InputStream from Server");
-		DataInputStream inFromServer = new DataInputStream(clientSocket.getInputStream());
-
-		FileOutputStream dos = new FileOutputStream("Redsox.jpg");
-
-		int count = -1;
-		byte[] buffer = new byte[1024];
-		boolean eohFound = false;
-
-		//		
-		while ((count = inFromServer.read(buffer)) != -1){ // count = # of bytes read
-			if(!eohFound){
-				String string = new String(buffer, 0, count);
-				int indexOfEOH = string.indexOf("\n\n");
-				System.out.println("Index of end of header " + indexOfEOH);
-				if(indexOfEOH != -1) {
-					count = count-indexOfEOH-2;
-					buffer = string.substring(indexOfEOH+2).getBytes();
-					eohFound = true;
-				} else {
-					count = 0;
-				}
-			}
-			System.out.println(" number of bytes read is : " + count);
-			dos.write(buffer, 0, count);
-			dos.flush();
-		}
-
-		System.out.println("Closing outToServer");
-		outToServer.close();
-		System.out.println("Closing inFromServer");
-		inFromServer.close();
-		System.out.println("Closing clientSocket");
-		clientSocket.close();
-
-		// probably need to parse this
-		//				200 OK		-> status code
-		//				BODY_BYTE_OFFSET_IN_FILE: 0 	-> byte off set(always 0 for CS)
-		//				BODY_BYTE_LENGTH: 58241			-> byte length ()
-		//				\n\n							-> two new lines to separate header from payload
-		//				<bytes of body follow here>
-		//
-
-	}
-
 	public void talkToPearServer() throws IOException{
 		request = "Redsox.jpg";
 		System.out.println("Sending Get Request");
 		// dataoutputstream writes to clientSocket.getoutputstrteam()
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		//send request to server
-		System.out.println("Writing request out to server: " + "GET: " +request+ '\n' );
+
+
+
+		//requestig metadata
+
+		System.out.println("Writing request for MetaData: " + "GET: " +request+ ".torrent" + '\n' );
 		outToServer.writeBytes("GET "+request+ ".torrent" + '\n');
 		outToServer.flush();
 
-		System.out.println("Getting InputStream from Server");
+		System.out.println("Getting InputStream(metadata) from Server");
 
 		int bSize = 0;
 		boolean eoh = false; // boolean for end of file
+		boolean eOMD = false;
+		MetaData meta = new MetaData();
 		String[] lengthArray;
 
 		DataInputStream inFromServer = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
 		OutputStream outFromServer = clientSocket.getOutputStream();   
 
 
-		System.out.println(inFromServer.readLine()); // status
-		System.out.println(inFromServer.readLine()); // offset
-		String byteLenStr = inFromServer.readLine(); // length
-		System.out.println(byteLenStr);
-		lengthArray = byteLenStr.split(" ");
-		bSize = Integer.parseInt(lengthArray[1]);
-		System.out.println(inFromServer.readLine()); // newline
-
-		byte[] buffer = new byte[1024*5];
-
-		
-		
-		System.out.println("Writing to .jpg File now");
-		FileOutputStream fileOut = new FileOutputStream("Redsox.jpg");
-
-		BufferedOutputStream fileBuffer = new BufferedOutputStream(fileOut);
-		System.out.println("Making .jpg File");
-
-		int count;
-
-		while ((count = inFromServer.read(buffer)) != -1) { // while not end of file
-			// abouve should be producers
-			//======================
-			// this should start consumers
-			//writing to file
-			fileBuffer.write(buffer, 0, count);
-			System.out.println("Data Received : " + count);
-			fileBuffer.flush();
+		while(!eOMD){
+			eOMD = meta.parseMetaData(inFromServer.readLine());
 		}
+		
+		System.out.println(meta.toString());
+		
+		//status = inFromServer.readLine(); // should be the status
+
+
+		//		while(!eoh){
+		//			eoh = parseHeaderLine(inFromServer.readLine());
+		//		}
+
+//		byte[] buffer = new byte[1024*5];
+//
+//		System.out.println("Writing to .jpg File now");
+//		FileOutputStream fileOut = new FileOutputStream("Redsox.jpg");
+//
+//		BufferedOutputStream fileBuffer = new BufferedOutputStream(fileOut);
+//		System.out.println("Making .jpg File");
+//
+//		int count;
+//
+//		while ((count = inFromServer.read(buffer)) != -1) { // while not end of file
+//
+//			fileBuffer.write(buffer, 0, count);
+//			System.out.println("Data Received : " + count);
+//			fileBuffer.flush();
+//		}
 
 		// just closing the socket
 		System.out.println("Closing outToServer");
@@ -185,18 +152,11 @@ public class TCPClient{
 		System.out.println("Closing inFromServer");
 		inFromServer.close();
 		System.out.println("Closing clientSocket");
-		clientSocket.close();
-
-		//Response Format
-		
-//		NUM_BLOCKS: 6
-//		FILE_SIZE: 58241
-//		IP1: 128.119.245.20
-//		PORT1: 3456
-//		IP2: 128.119.245.20
-//		PORT2: 4321			
+		clientSocket.close();		
 
 	}
+
+	//======== Get methods
 
 	public static void main(String args[]) throws Exception {
 
@@ -248,7 +208,7 @@ public class TCPClient{
 				}
 				break;
 			case "test" :
-				TCPClient toPear = new TCPClient("plum.cs.umass.edu", 18765);
+				TCPClient toPear = new TCPClient("pear.cs.umass.edu", 18765);
 				toPear.talkToPearServer();
 				break;
 			default:
@@ -259,19 +219,19 @@ public class TCPClient{
 
 		case "P2P":
 			switch(ip){
-				case "pear.cs.umass.edu" :
-				case "plum.cs.umass.edu" :
-					if(port == 19876){
-						client.talkToPearServer();
-					}
-					break;
-				case "test":
-					TCPClient toPear = new TCPClient("pear.cs.umass.edu", 19876);
-					toPear.talkToPearServer();
-					break;
-				default:
-					System.out.println("Wrong IP Address and/or port");
-					break;
+			case "pear.cs.umass.edu" :
+			case "plum.cs.umass.edu" :
+				if(port == 19876){
+					client.talkToPearServer();
+				}
+				break;
+			case "test":
+				TCPClient toPear = new TCPClient("pear.cs.umass.edu", 19876);
+				toPear.talkToPearServer();
+				break;
+			default:
+				System.out.println("Wrong IP Address and/or port");
+				break;
 			}
 		default:
 			System.out.println("wrong mode!");
