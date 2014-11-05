@@ -165,31 +165,48 @@ public class TorrentClient{
 		request = "Redsox.jpg";
 		System.out.println("Opening Socket for MetaData: " + hostname + ":" + 19876);
 
-		Socket peerSocket = new Socket("date.cs.umass.edu",19876); // connection refused
+		DatagramSocket peerSocket = new DatagramSocket(); // connection refused
+
 		System.out.println("Socket Opened");
 
 		System.out.println("Writing request for MetaData: " + "GET: " +request+ ".torrent" + '\n');
 		System.out.println("Writing request to " + hostname + ":" + 19876);
+		byte[] sendData = new byte[1024];
+		byte[] receiveData = new byte[1024];
+		String s = "Get " + request + ".torrent";
+		InetAddress IPAddress = InetAddress.getByName(hostname); 
 
+		sendData = s.getBytes();
 
-		DataOutputStream outToPeer = new DataOutputStream(peerSocket.getOutputStream());
-		DataInputStream inFromPeer = new DataInputStream(new BufferedInputStream(peerSocket.getInputStream()));
+		System.out.println("Creating a UDP Socket");
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 19876);
 
+		System.out.println("Sending Requst");
 		System.out.println("GET "+request+".torrent\n");
-		outToPeer.writeBytes("GET "+request+".torrent\n");
-		outToPeer.flush();
+		peerSocket.send(sendPacket);
 
-		System.out.println("Getting InputStream(metadata) from Server");
-		System.out.println(inFromServer.readLine());
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		peerSocket.receive(receivePacket);
 
-		outToPeer.close();
-		inFromPeer.close();
+		MetaData meta = new MetaData(); // calling this multiple times will yield different peers lets start with calling this 3 times
+		boolean eOMD = false;
+		s = new String(receivePacket.getData());
+		
+		while(!eOMD){
+			System.out.println("trying to parse metadata\n eOMD: " + eOMD);
+			eOMD = meta.parseMetaData(s);
+		}
+		
+		System.out.println("Printing MetaData: ");
+		meta.toString();
+
+		System.out.println("Closing peer DatagramSocket");
 		peerSocket.close();
 
 		//		int bSize = 0;
 		//		boolean eoh = false; // boolean for end of file
 		//		boolean eOMD = false;
-		//		MetaData meta = new MetaData(); // calling this multiple times will yield different peers lets start with calling this 3 times
+
 		//		String[] lengthArray;    
 
 		//		while(!eOMD){
