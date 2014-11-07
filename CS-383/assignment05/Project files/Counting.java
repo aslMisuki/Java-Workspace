@@ -160,7 +160,7 @@ public class Counting{
 	}
 
 
-	void permutations(ArrayList<String[]> elementList, ArrayList<String> dest, int index, String current)
+	private void permutations(ArrayList<String[]> elementList, ArrayList<String> dest, int index, String current)
 	{
 		if(index == elementList.size()){ // this is where everything gets added to dest
 			dest.add(current);

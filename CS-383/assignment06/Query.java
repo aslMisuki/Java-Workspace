@@ -80,10 +80,7 @@ public class Query{
 //			s.append(v+ ",");
 //		}
 //		s.append("]]");
-
-		
-		
-		//return s.toString().replace(",]", "]");
+//		return s.toString().replace(",]", "]");
 	}
 
 }

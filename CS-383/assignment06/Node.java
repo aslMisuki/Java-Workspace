@@ -13,9 +13,9 @@ import java.util.Map;
  * Created by liberato on 10/25/14.
  */
 public class Node {
-    public final String name;
-    public final Node[] parents;
-    public final double[] probs;
+    private final String name;
+    private final Node[] parents;
+    private final double[] probs;
 
     public Node(String name, Node[] parents, double[] probs) {
         this.name = name;
@@ -63,5 +63,16 @@ public class Node {
         return nodeMap;
     }
     
-
+    // Getters
+    public String getName(){
+    	return name;
+    }
+    
+    public Node[] getParents(){
+    	return parents;
+    }
+    
+    public double[] getProbs(){
+    	return probs;
+    }
 }
