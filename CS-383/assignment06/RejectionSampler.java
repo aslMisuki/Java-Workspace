@@ -38,13 +38,16 @@ public class RejectionSampler {
 	public Node priorSampler(Map<String, Node> bn){
 
 		Random randomizer = null;
-
+		
 
 		Map<String, Node> x = new LinkedHashMap<String, Node>();
 		// foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
 		for (String Xi : bn) {
 			// x[i] <- a random sample from
 			// <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
+			
+			Xi.getCPD().getSample(r.nextDouble(), getEventValuesForParents(Xi, event));
+			
 			x.put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
 		}
 		// return x
