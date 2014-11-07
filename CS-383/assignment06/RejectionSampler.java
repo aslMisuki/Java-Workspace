@@ -25,9 +25,61 @@ public class RejectionSampler {
     }
 
     public static void main(String[] args) {
-        String fileContents = readEntireFile(new File(args[0]));
-        Map<String, Node> nodeMap = Node.nodesFromString(fileContents);
-        System.out.println("Bayes Net:");
-        System.out.println(nodeMap);
+    	String mode = "IDE"; // "shell" or "IDE"
+    	String fileContents = "";
+    	Map<String, Node> nodeMap;
+    	Query q;
+    	boolean testGrass = false;
+    	
+    	switch(mode){
+    	case "shell" :
+	        fileContents = readEntireFile(new File(args[0]));
+	        break;
+    	case "IDE" :
+    		String test = "Q"; // "Q", "Q+E", "Q+E+V", "grass", "cGrass"
+    		switch(test){
+	    		case "Q":
+	    			System.out.println("Testing Query only");
+		        	fileContents = "[" + readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/TestQ.json")) + "]";
+		        	break;
+	    		case "Q+E" :
+	    			System.out.println("Testing Query given Evidence");
+	    			fileContents = "[" + readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/TestQnE.json")) + "]";
+	    			break;
+	    		case "Q+E+V" :
+	    			System.out.println("Testing Query given Evidence with set Values");
+	    			fileContents =  "[" + readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/TestQnEnV.json")) +  "]";
+	    			break;
+	    		case "grass" :
+	    			testGrass = true;
+	    			System.out.println("Testing regular Bayes net imput");
+	    			fileContents = readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/wetgrass.json"));
+	    			nodeMap = Node.nodesFromString(fileContents);
+	    		    System.out.println("Bayes Net:");
+	    		    System.out.println(nodeMap);
+	    		    break;
+	    		case "cGrass" :
+	    			testGrass = true;
+	    			System.out.println("Testing regular Bayes net imput");
+	    			fileContents = readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/cloudyGrass.json"));
+	    			nodeMap = Node.nodesFromString(fileContents);
+	    		    System.out.println("Bayes Net:");
+	    		    System.out.println(nodeMap);
+	    			break;
+	    		default:
+	    			System.out.println("bad test!");
+	    			break;
+    		}
+    		break;
+    	default:
+    		System.out.println("bad mode!");
+    		break;
+    	}
+    	if(!testGrass){
+    		q = new Query(fileContents);
+    		System.out.println(q.toString());
+    	}
+    	
+
     }
 }
