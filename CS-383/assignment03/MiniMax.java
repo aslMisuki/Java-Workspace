@@ -1,7 +1,5 @@
 package assignment03;
 
-import A3redo.Board;
-
 public class MiniMax{
 	// shold not handle turn determination
 	

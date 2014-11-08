@@ -36,6 +36,7 @@ public class Solver {
 			parseBoard(fileLoc);
 			place = "";
 		}
+		
 		private void solveRun(){ // comes up with a solution for the input board and returns the moves required
 			//int curCol = 0;
 			//int curRow = 0;
