@@ -8,7 +8,6 @@ import com.google.gson.JsonParser;
 
 
 public class Query{
-	private static String s;
 	private static String[] query;
 	private static String[] evidence;
 	private static boolean[] values;
@@ -18,7 +17,6 @@ public class Query{
 	
 	
 	public Query(String s) {
-		this.s = s;
 		gson = new Gson();
 		parser = new JsonParser();
 		jsonNodes = parser.parse(s).getAsJsonArray(); // size = 1
@@ -63,10 +61,6 @@ public class Query{
 
 	public boolean[] getValues(){
 		return values;
-	}
-	
-	public String getString(){
-		return s;
 	}
 
 	public String toString(){

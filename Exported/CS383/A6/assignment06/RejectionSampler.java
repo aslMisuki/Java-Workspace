@@ -3,7 +3,6 @@ package assignment06;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
@@ -14,36 +13,12 @@ import java.util.Random;
 public class RejectionSampler {
 
 	public RejectionSampler(Query Query, boolean[] values, Map<String, Node> bn, int N ){ //constructor
-		
 		int[] count;
 		Node x;
-		PriorSample ps = new PriorSample(bn);
-		
-//		for(int j =1; j<N; j++){
-//			x = ps.runSampling();
-//		}
-		
-		/*
-		 * double[] N = new double[X.getDomain().size()];
+		for(int j =1; j<N; j++){
+			x = priorSampler(bn);
+		}
 
-                for (int j = 0; j < Nsamples; j++) { // # of samples
-                        // <b>x</b> <- PRIOR-SAMPLE(bn)
-                        Map<RandomVariable, Object> x = ps.priorSample(bn);
-                        // if <b>x</b> is consistent with e then
-                        if (isConsistent(x, e)) {
-                                // <b>N</b>[x] <- <b>N</b>[x] + 1
-                                // where x is the value of X in <b>x</b>
-                                N[indexOf(X, x)] += 1.0;
-                        }
-                }
-                // return NORMALIZE(<b>N</b>)
-                return new ProbabilityTable(N, X).normalize();
-		 */
-	}
-	
-	public RejectionSampler(Query Query){
-		int[] count;
-		Node x;
 	}
 
 	public static String readEntireFile(File f) {
@@ -59,16 +34,40 @@ public class RejectionSampler {
 		java.util.Scanner scanner = new java.util.Scanner(fin,"UTF-8").useDelimiter("\\A");
 		return scanner.hasNext() ? scanner.next() : "";
 	}
-	
-	public String toString(){
+
+	public Node priorSampler(Map<String, Node> bn){
+
+		Random randomizer = null;
 		
-		return "This is the steadyState";
+
+		Map<String, Node> x = new LinkedHashMap<String, Node>();
+		// foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
+		for (String Xi : bn) {
+			// x[i] <- a random sample from
+			// <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
+			
+			Xi.getCPD().getSample(r.nextDouble(), getEventValuesForParents(Xi, event));
+			
+			x.put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
+		}
+		// return x
+		return x;
+
+
+		//		Node x;
+		//		for()
+		//		//if(x[i]) = randomsample fropm P(Xi|p(Xi)
+		//		}
+		//		return x;
+		//		
+		//		return null;
+		//	}
 	}
 
 	public static void main(String[] args) {
 		String mode = "IDE"; // "shell" or "IDE"
 		String fileContents = "";
-		Map<String, Node> nodeMap = new HashMap<String,Node>();
+		Map<String, Node> nodeMap;
 		Query q;
 		boolean testGrass = false;
 
@@ -77,24 +76,24 @@ public class RejectionSampler {
 			fileContents = readEntireFile(new File(args[0]));
 			break;
 		case "IDE" :
-			String test = "cGrass"; // "Q", "Q+E", "Q+E+V", "grass", "cGrass"
-			switch(test){	
+			String test = "Q"; // "Q", "Q+E", "Q+E+V", "grass", "cGrass"
+			switch(test){
 			case "Q":
 				System.out.println("Testing Query only");
-				fileContents = "[" + readEntireFile(new File("./A6/assignment06/jResources/TestQ.json")) + "]";
+				fileContents = "[" + readEntireFile(new File("./reTestQ.json")) + "]";
 				break;
 			case "Q+E" :
 				System.out.println("Testing Query given Evidence");
-				fileContents = "[" + readEntireFile(new File("./A6/assignment06/jResources/TestQnE.json")) + "]";
+				fileContents = "[" + readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/TestQnE.json")) + "]";
 				break;
 			case "Q+E+V" :
 				System.out.println("Testing Query given Evidence with set Values");
-				fileContents =  "[" + readEntireFile(new File("./A6/assignment06/jResources/TestQnEnV.json")) +  "]";
+				fileContents =  "[" + readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/TestQnEnV.json")) +  "]";
 				break;
 			case "grass" :
 				testGrass = true;
 				System.out.println("Testing regular Bayes net imput");
-				fileContents = readEntireFile(new File("./A6/assignment06/jResources/wetgrass.json"));
+				fileContents = readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/wetgrass.json"));
 				nodeMap = Node.nodesFromString(fileContents);
 				System.out.println("Bayes Net:");
 				System.out.println(nodeMap);
@@ -102,9 +101,9 @@ public class RejectionSampler {
 			case "cGrass" :
 				testGrass = true;
 				System.out.println("Testing regular Bayes net imput");
-				fileContents = readEntireFile(new File("./A6/assignment06/jResources/cloudyGrass.json"));
+				fileContents = readEntireFile(new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment06/cloudyGrass.json"));
 				nodeMap = Node.nodesFromString(fileContents);
-				System.out.println("Bayes Net:");	
+				System.out.println("Bayes Net:");
 				System.out.println(nodeMap);
 				break;
 			default:
@@ -117,17 +116,8 @@ public class RejectionSampler {
 			break;
 		}
 		if(!testGrass){
-			// take in query input
 			q = new Query(fileContents);
 			System.out.println(q.toString());
-			
-			PriorSample prior = new PriorSample(nodeMap);
-			prior.runSampling();
-			//RejectionSampler rejFinal = new RejectionSampler(q, q.getValues(), nodeMap, 1000 );
-			
-			//System.out.println(rejFinal.toString());
-			
-			//print out query output
 		}
 
 

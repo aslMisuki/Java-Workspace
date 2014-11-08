@@ -23,52 +23,52 @@
 		<link>
 			<name>A6/assignment06/GibbsSampler.java</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/GibbsSampler.java</locationURI>
+			<location>C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment06/GibbsSampler.java</location>
 		</link>
 		<link>
 			<name>A6/assignment06/Node.java</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/Node.java</locationURI>
+			<location>C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment06/Node.java</location>
 		</link>
 		<link>
 			<name>A6/assignment06/Query.java</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/Query.java</locationURI>
+			<location>C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment06/Query.java</location>
 		</link>
 		<link>
 			<name>A6/assignment06/RejectionSampler.java</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/RejectionSampler.java</locationURI>
+			<location>C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment06/RejectionSampler.java</location>
 		</link>
 		<link>
 			<name>A6/assignment06/TestQ.json</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/TestQ.json</locationURI>
+			<locationURI>PROJECT_LOC/A6/assignment06/jResources/TestQ.json</locationURI>
 		</link>
 		<link>
 			<name>A6/assignment06/TestQnE.json</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/TestQnE.json</locationURI>
+			<locationURI>PROJECT_LOC/A6/assignment06/jResources/TestQnE.json</locationURI>
 		</link>
 		<link>
 			<name>A6/assignment06/TestQnEnV.json</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/TestQnEnV.json</locationURI>
+			<locationURI>PROJECT_LOC/A6/assignment06/jResources/TestQnEnV.json</locationURI>
 		</link>
 		<link>
 			<name>A6/assignment06/cloudyGrass.json</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/cloudyGrass.json</locationURI>
+			<locationURI>PROJECT_LOC/A6/assignment06/jResources/cloudyGrass.json</locationURI>
 		</link>
 		<link>
 			<name>A6/assignment06/readme.txt</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/readme.txt</locationURI>
+			<locationURI>PROJECT_LOC/A6/assignment06/jResources/readme.txt</locationURI>
 		</link>
 		<link>
 			<name>A6/assignment06/wetgrass.json</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment06/wetgrass.json</locationURI>
+			<locationURI>PROJECT_LOC/A6/assignment06/jResources/wetgrass.json</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
