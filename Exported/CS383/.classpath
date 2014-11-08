@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="A0"/>
+	<classpathentry kind="src" path="A1"/>
+	<classpathentry kind="src" path="A2"/>
+	<classpathentry kind="src" path="A3"/>
+	<classpathentry kind="src" path="A4"/>
+	<classpathentry kind="src" path="A3 Redo"/>
+	<classpathentry kind="src" path="A5"/>
+	<classpathentry kind="src" path="A6"/>
+	<classpathentry kind="lib" path="A6/lib/gson-2.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
