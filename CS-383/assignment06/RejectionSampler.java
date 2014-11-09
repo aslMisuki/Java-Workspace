@@ -118,12 +118,13 @@ public class RejectionSampler {
 		}
 		if(!testGrass){
 			// take in query input
-			e = new Event(fileContents);
-			System.out.println(e.toString());
-			System.out.println("Testing Priory Sample: " + nodeMap.size());
+			e = new Event(fileContents); // the prob request
+			System.out.println("Request: " + e.toString());
 			String bnLoc = readEntireFile(new File("./A6/assignment06/jResources/cloudyGrass.json"));
-			
 			nodeMap = Node.nodesFromString(bnLoc);
+			System.out.println("Bayes's Net: " + nodeMap.toString());
+			System.out.println("Testing Priory Sample: " + "\nNodeMapSize: " + nodeMap.size());
+			
 			PriorSample prior = new PriorSample(nodeMap);
 			prior.runSampling();
 			

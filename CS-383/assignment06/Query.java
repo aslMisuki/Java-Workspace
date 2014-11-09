@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 
 
 public class Event{
+	private static String queries;
 	private static String[] variable;
 	private static String[] evidence;
 	private static boolean[] values;
@@ -21,11 +22,10 @@ public class Event{
 		parser = new JsonParser();
 		jsonNodes = parser.parse(s).getAsJsonArray(); // size = 1
 		queryFromQueryString(s);
-
 	}
 	
-	public Event(String[] name, String[] parents, boolean[] values){
-		variable = name;
+	public Event(String name, String[] parents, boolean[] values){
+		queries = name;
 		evidence = parents;
 		this.values = values;
 	}
@@ -57,7 +57,7 @@ public class Event{
 
 	// Getters
 
-	public String[] getQuery(){
+	public String[] getVariables(){
 		return variable;
 	}
 
@@ -67,6 +67,9 @@ public class Event{
 
 	public boolean[] getValues(){
 		return values;
+	}
+	public String getQueries(){
+		return queries;
 	}
 
 	public String toString(){
