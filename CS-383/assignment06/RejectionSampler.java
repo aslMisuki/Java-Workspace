@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class RejectionSampler {
 
-	public RejectionSampler(Query Query, boolean[] values, Map<String, Node> bn, int N ){ //constructor
+	public RejectionSampler(Event event, boolean[] values, Map<String, Node> bn, int N ){ //constructor
 		
 		int[] count;
 		Node x;
@@ -41,7 +41,7 @@ public class RejectionSampler {
 		 */
 	}
 	
-	public RejectionSampler(Query Query){
+	public RejectionSampler(Event event){
 		int[] count;
 		Node x;
 	}
@@ -69,7 +69,7 @@ public class RejectionSampler {
 		String mode = "IDE"; // "shell" or "IDE"
 		String fileContents = "";
 		Map<String, Node> nodeMap = new HashMap<String,Node>();
-		Query q;
+		Event e;
 		boolean testGrass = false;
 
 		switch(mode){
@@ -77,7 +77,7 @@ public class RejectionSampler {
 			fileContents = readEntireFile(new File(args[0]));
 			break;
 		case "IDE" :
-			String test = "cGrass"; // "Q", "Q+E", "Q+E+V", "grass", "cGrass"
+			String test = "Q"; // "Q", "Q+E", "Q+E+V", "grass", "cGrass"
 			switch(test){	
 			case "Q":
 				System.out.println("Testing Query only");
@@ -118,13 +118,16 @@ public class RejectionSampler {
 		}
 		if(!testGrass){
 			// take in query input
-			q = new Query(fileContents);
-			System.out.println(q.toString());
+			e = new Event(fileContents);
+			System.out.println(e.toString());
+			System.out.println("Testing Priory Sample: " + nodeMap.size());
+			String bnLoc = readEntireFile(new File("./A6/assignment06/jResources/cloudyGrass.json"));
 			
+			nodeMap = Node.nodesFromString(bnLoc);
 			PriorSample prior = new PriorSample(nodeMap);
 			prior.runSampling();
-			//RejectionSampler rejFinal = new RejectionSampler(q, q.getValues(), nodeMap, 1000 );
 			
+			//RejectionSampler rejFinal = new RejectionSampler(q, q.getValues(), nodeMap, 1000 );
 			//System.out.println(rejFinal.toString());
 			
 			//print out query output

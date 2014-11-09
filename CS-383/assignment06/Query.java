@@ -7,9 +7,8 @@ import com.google.gson.JsonParser;
 
 
 
-public class Query{
-	private static String s;
-	private static String[] query;
+public class Event{
+	private static String[] variable;
 	private static String[] evidence;
 	private static boolean[] values;
 	private static Gson gson;
@@ -17,13 +16,18 @@ public class Query{
 	private static JsonArray jsonNodes;
 	
 	
-	public Query(String s) {
-		this.s = s;
+	public Event(String s) {
 		gson = new Gson();
 		parser = new JsonParser();
 		jsonNodes = parser.parse(s).getAsJsonArray(); // size = 1
 		queryFromQueryString(s);
 
+	}
+	
+	public Event(String[] name, String[] parents, boolean[] values){
+		variable = name;
+		evidence = parents;
+		this.values = values;
 	}
 
 	/**
@@ -44,9 +48,9 @@ public class Query{
 		//        	}
 		//
 		//        }
-
-
-		query = gson.fromJson(jsonNodes.get(0).getAsJsonArray().get(0).getAsJsonArray(), String[].class);
+		
+		// assuming that we are getting correct input
+		variable = gson.fromJson(jsonNodes.get(0).getAsJsonArray().get(0).getAsJsonArray(), String[].class);
 		evidence = gson.fromJson(jsonNodes.get(0).getAsJsonArray().get(1).getAsJsonArray(), String[].class);
 		values = gson.fromJson(jsonNodes.get(0).getAsJsonArray().get(2).getAsJsonArray(), boolean[].class);
 	}
@@ -54,7 +58,7 @@ public class Query{
 	// Getters
 
 	public String[] getQuery(){
-		return query;
+		return variable;
 	}
 
 	public String[] getEvidence(){
@@ -63,10 +67,6 @@ public class Query{
 
 	public boolean[] getValues(){
 		return values;
-	}
-	
-	public String getString(){
-		return s;
 	}
 
 	public String toString(){

@@ -32,7 +32,7 @@ public class Node {
             sb.append(',');
         }
         sb.append("], probs="+ Arrays.toString(probs) + '}');
-        return sb.toString();
+        return sb.toString().replace(",]", "]");
     }
 
     /**
@@ -61,6 +61,23 @@ public class Node {
             nodeMap.put(name, node);
         }
         return nodeMap;
+    }
+    
+    // returns mk blanet of this node
+    public HashMap<String,Node> getMKBlanket(){
+        String na;
+        Node[] p;
+        double[] prob;
+        
+        Map<String, Node> mKBlanket = new HashMap<String, Node>();
+        
+        
+        
+    	Node n = new Node(name,parents, probs);
+    	
+    	return null;
+    	
+    	
     }
     
     // Getters

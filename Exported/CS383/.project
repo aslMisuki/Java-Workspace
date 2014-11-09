@@ -21,6 +21,11 @@
 			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment00/HelloWorld.java</locationURI>
 		</link>
 		<link>
+			<name>A6/assignment06/Event.java</name>
+			<type>1</type>
+			<location>C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment06/Query.java</location>
+		</link>
+		<link>
 			<name>A6/assignment06/GibbsSampler.java</name>
 			<type>1</type>
 			<location>C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment06/GibbsSampler.java</location>
@@ -29,11 +34,6 @@
 			<name>A6/assignment06/Node.java</name>
 			<type>1</type>
 			<location>C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment06/Node.java</location>
-		</link>
-		<link>
-			<name>A6/assignment06/Query.java</name>
-			<type>1</type>
-			<location>C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment06/Query.java</location>
 		</link>
 		<link>
 			<name>A6/assignment06/RejectionSampler.java</name>
