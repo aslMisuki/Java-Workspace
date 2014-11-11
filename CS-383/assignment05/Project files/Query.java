@@ -104,7 +104,6 @@ public class Query{
 				break;
 			}
 		}
-
 		return given;
 	}
 
@@ -148,14 +147,12 @@ public class Query{
 		s = query.get(0);
 		String[] a = s.split(" ");
 		return a.length;
-
 	}
 
 	public void printQuery(){
 		for(String s: query){
 			System.out.println(s);
 		}
-
 	}
 	
 	public boolean isValid(){ // does not check for duplicates
@@ -167,6 +164,5 @@ public class Query{
 		}
 		else 
 			return true;
-			
 	}
 }

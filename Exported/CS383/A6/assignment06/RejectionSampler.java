@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class RejectionSampler {
 
-	public RejectionSampler(Query Query, boolean[] values, Map<String, Node> bn, int N ){ //constructor
+	public RejectionSampler(Event Event, boolean[] values, Map<String, Node> bn, int N ){ //constructor
 		int[] count;
 		Node x;
 		for(int j =1; j<N; j++){
@@ -37,21 +37,21 @@ public class RejectionSampler {
 
 	public Node priorSampler(Map<String, Node> bn){
 
-		Random randomizer = null;
-		
-
-		Map<String, Node> x = new LinkedHashMap<String, Node>();
-		// foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
-		for (String Xi : bn) {
-			// x[i] <- a random sample from
-			// <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
-			
-			Xi.getCPD().getSample(r.nextDouble(), getEventValuesForParents(Xi, event));
-			
-			x.put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
-		}
-		// return x
-		return x;
+//		Random randomizer = null;
+//		
+//
+//		Map<String, Node> x = new LinkedHashMap<String, Node>();
+//		// foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
+//		for (String Xi : bn) {
+//			// x[i] <- a random sample from
+//			// <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
+//			
+//			Xi.getCPD().getSample(r.nextDouble(), getEventValuesForParents(Xi, event));
+//			
+//			x.put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
+//		}
+//		// return x
+//		return x;
 
 
 		//		Node x;
@@ -62,13 +62,14 @@ public class RejectionSampler {
 		//		
 		//		return null;
 		//	}
+		return null;
 	}
 
 	public static void main(String[] args) {
 		String mode = "IDE"; // "shell" or "IDE"
 		String fileContents = "";
 		Map<String, Node> nodeMap;
-		Query q;
+		Event q;
 		boolean testGrass = false;
 
 		switch(mode){
@@ -116,7 +117,7 @@ public class RejectionSampler {
 			break;
 		}
 		if(!testGrass){
-			q = new Query(fileContents);
+			q = new Event(fileContents);
 			System.out.println(q.toString());
 		}
 

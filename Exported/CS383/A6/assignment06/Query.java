@@ -7,8 +7,8 @@ import com.google.gson.JsonParser;
 
 
 
-public class Query{
-	private static String[] query;
+public class Event{
+	private static String[] variables;
 	private static String[] evidence;
 	private static boolean[] values;
 	private static Gson gson;
@@ -16,7 +16,7 @@ public class Query{
 	private static JsonArray jsonNodes;
 	
 	
-	public Query(String s) {
+	public Event(String s) {
 		gson = new Gson();
 		parser = new JsonParser();
 		jsonNodes = parser.parse(s).getAsJsonArray(); // size = 1
@@ -44,15 +44,15 @@ public class Query{
 		//        }
 
 
-		query = gson.fromJson(jsonNodes.get(0).getAsJsonArray().get(0).getAsJsonArray(), String[].class);
+		variables = gson.fromJson(jsonNodes.get(0).getAsJsonArray().get(0).getAsJsonArray(), String[].class);
 		evidence = gson.fromJson(jsonNodes.get(0).getAsJsonArray().get(1).getAsJsonArray(), String[].class);
 		values = gson.fromJson(jsonNodes.get(0).getAsJsonArray().get(2).getAsJsonArray(), boolean[].class);
 	}
 
 	// Getters
 
-	public String[] getQuery(){
-		return query;
+	public String[] getVariable(){
+		return variables;
 	}
 
 	public String[] getEvidence(){

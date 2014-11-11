@@ -40,17 +40,17 @@ public class PriorSample {
 			
 			// creating random event with given string
 			//lets start with assume only 1 variable, no need to post parents
-			n = new Event(Xi.getKey().toString(), null, probs);
-			x.add(n); // needs to be a random node
+//			n = new Event(Xi.getKey().toString(), null, probs);
+//			x.add(n); // needs to be a random node
 		}
 		
 		System.out.println("hash is filled, now to iterate through ");
 		
 		for(Event e: x){ //goes through hashmap of (String, Entries)+
 			System.out.println("Names: ");
-			for(String s : e.getVariables()){
-				System.out.print(s + ",");
-			}
+//			for(String s : e.getVariables()){
+//				System.out.print(s + ",");
+//			}
 			System.out.println();
 			System.out.println("parents: " + null);
 			System.out.print("values: ");
