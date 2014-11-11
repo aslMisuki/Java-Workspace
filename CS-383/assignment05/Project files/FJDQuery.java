@@ -98,11 +98,7 @@ public class FJDQuery{
 //	   car 		
 	private void calcProb(ArrayList<Car> l){ // just a counting problem now
 		//System.out.println(query.getProbOf().length);
-		
 		Counting count = new Counting(query, l); // used to calculate 
-
-		
-		
 	}
 
 	//==== standard methods ====
