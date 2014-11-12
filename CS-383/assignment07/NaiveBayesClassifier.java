@@ -15,12 +15,14 @@ public class NaiveBayesClassifier{
 	 * classifies the query
 	 */
 	
-	private double[] valueCount;
+	private double[] republicanCount;
+	private double[] demorcratCount;
 	
 	private List<Query> trainingData;
 	
 	public NaiveBayesClassifier(){
-		valueCount = new double[16];
+		republicanCount = new double[17]; //17 includes id count
+		demorcratCount = new double[17];
 		smoothCount();
 		trainingData = new ArrayList<Query>();
 	}
@@ -35,19 +37,27 @@ public class NaiveBayesClassifier{
 		Scanner br = new Scanner(inputFile);
 		String line = "";
 		String[] temp;
-
+		String id;
 		while(br.hasNext()){
 			line = br.nextLine();
+			if(line.contains("republican")){
+				id = "republican";
+				line.replace("republican,", "");
+			}else if(line.contains("democrat")){
+				id = "democrat";
+				line.replace("democrat,", "");
+			}else{id="";}
 			temp = line.split(",");
-			trainingData.add(new Query(temp[0],temp));
+			trainingData.add(new Query(id,temp));
 		}
 	}
 	
 	//initiates all counters to 1
 	private void smoothCount(){
 		int index=0;
-		for(double d: valueCount){
-			valueCount[index] = 1;
+		for(double d: republicanCount){
+			republicanCount[index] = 1;
+			demorcratCount[index] = 1;
 			index++;
 		}
 	}
@@ -67,9 +77,9 @@ public class NaiveBayesClassifier{
 	 * ID,max(<P(ID|votes)> , <P(ID|votes)>)   *no spaces
 	 */
 	public String toString(){
+		StringBuilder sb = new StringBuilder();
 		
-		
-		return "";
+		return sb.toString();
 	}
 	
 	public static void main(String args[]) throws IOException{

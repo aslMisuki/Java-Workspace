@@ -10,16 +10,14 @@ import java.util.Set;
 
 public class Query{
 	/*
-	 * Stores the Query components
-	 * republican,n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,n
-	 * democrat,n,y,y,n,y,y,y,n,y,y,y,n,y,y,n,y
-	 * republican,n,n,n,y,y,y,n,n,n,y,n,?,y,y,n,?
+	 * Stores the Query components for Test.data and Training.data
+	 * Test.data
 	 */
 	private String party; //republican or democrat 
 	
-    private String[] conditions; //{y,n,? = null;} party is included in the array... too lazy to clone another array
+    private String[] conditions; //{y,n,? = null;}
     /* 	constructor
-     * inputs: list of queryRV, and a list of evidenceRVs 
+     * inputs: list of queryRV, and a list of evidenceRVs 7
      * P(demo|evidence)
      */
 
@@ -46,7 +44,9 @@ public class Query{
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		st.append("Printing Query data:\n");
-		
+		if(party != ""){
+			st.append(party + ",");
+		}
 		for(String s : conditions){
 			st.append(s + ",");
 		}
