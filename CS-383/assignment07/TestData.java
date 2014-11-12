@@ -10,13 +10,13 @@ import java.util.Set;
 
 public class TestData{
 	/*
-	 * Takes in training.data and stores it
+	 * Takes in test.data and stores it as a list of Query objects
+	 * n,n,y,n,y,y,y,n,y,y,y,n,y,y,n,y
+	 * n,n,y,y,y,y,n,n,n,n,n,y,y,y,n,n
 	 */
-	//assuming we don't count doubles
-	//final Set<String> conditions;
 
 	//assuming we count doubles if they exists
-	private List<String[]> values;
+	private List<Query> values;
 
 	/* 	constructor
 	 * inputs: list of queryRV, and a list of evidenceRVs 
@@ -24,10 +24,10 @@ public class TestData{
 	 */
 
 	public TestData(){
-		values = new ArrayList<String[]>();
+		values = new ArrayList<Query>();
 	}
 
-	//just like training.data, with no identifier
+	//just like test.data, with identifier = ""
 	public void parseTestFile(File inputFile)throws IOException{
 		
 		Scanner br = new Scanner(inputFile);
@@ -36,14 +36,34 @@ public class TestData{
 
 		while(br.hasNext()){
 			line = br.nextLine();
-			values.add(line.split(","));
+			temp = line.split(",");
+			values.add(new Query("", temp));
 		}
 	}
 
 	//getters
 
-	public List<String[]> getValues(){
+	public List<Query> getValues(){
 		return values;
+	}
+	
+	//used for testing
+	public String toString(){
+		StringBuilder st = new StringBuilder();
+		st.append("Printing test data:\n");
+		
+		for(Query q : values){
+		
+		st.append(q.toString() + "\n");
+		}
+//			for(String s : q.getConditions()){
+//				st.append(s + ",");
+//			}
+//			st.deleteCharAt(st.length()-1);
+//			st.append("\n");
+//		}
+		
+		return st.toString();
 	}
 
 }

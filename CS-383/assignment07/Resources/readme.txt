@@ -13,6 +13,8 @@ TestData
 
 NaiveBayesClassifier.java
 	- this takes Training.data and creates a model so we can classify queries in TestData.java with its probability
+	- parseTrainingData is good
+	- parseTestData is good
 
 Query.java
 	the query represntation of the information inside TestData
