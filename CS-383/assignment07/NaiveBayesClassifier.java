@@ -37,18 +37,27 @@ public class NaiveBayesClassifier{
 		Scanner br = new Scanner(inputFile);
 		String line = "";
 		String[] temp;
-		String id;
+		String id="";
 		while(br.hasNext()){
 			line = br.nextLine();
+			System.out.println("new line: " + line);
+			
 			if(line.contains("republican")){
 				id = "republican";
-				line.replace("republican,", "");
-			}else if(line.contains("democrat")){
+				line.replace("republican", "");
+			}
+			else if(line.contains("democrat")){
 				id = "democrat";
-				line.replace("democrat,", "");
-			}else{id="";}
+				line.replace("democrat", "");
+			}
+			else{
+				id="";
+				System.out.println("false");
+			}
+			System.out.println("mod Line: " + line + "\n");
 			temp = line.split(",");
 			trainingData.add(new Query(id,temp));
+			id="";
 		}
 	}
 	
@@ -109,10 +118,10 @@ public class NaiveBayesClassifier{
 			//System.out.println("file can be read");
 			naiveBC = new NaiveBayesClassifier();
 			naiveBC.parseTrainingData(trainingFile);
-			testData = new TestData();
-			testData.parseTestFile(testFile);
-			File currDir = new File(".");
-			System.out.println(naiveBC.trainingToString());
+			//testData = new TestData();
+			//testData.parseTestFile(testFile);
+	
+			//System.out.println(naiveBC.trainingToString());
 		}
 		else{
 			System.out.println("Bad File or Directory");

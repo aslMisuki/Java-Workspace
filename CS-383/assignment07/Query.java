@@ -51,7 +51,7 @@ public class Query{
 			st.append(s + ",");
 		}
 		
-		st.deleteCharAt(st.length()-1);
+		st.deleteCharAt(st.lastIndexOf(",")); // deletes extra ","
 		return st.toString();
 	}
 	
