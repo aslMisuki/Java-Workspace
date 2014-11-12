@@ -18,8 +18,8 @@ public class NaiveBayesClassifier{
 	private double[] republicanCount;
 	private double[] democratCount;
 	
-	private List<Query> trainingData;
-	
+//	private List<Query> trainingData;
+
 	private List<Query> dEvidence;
 	private List<Query> rEvidence;
 	
@@ -29,8 +29,11 @@ public class NaiveBayesClassifier{
 		republicanCount[0] = 1;
 		democratCount = new double[17];
 		democratCount[0] = 1;
+		dEvidence = new ArrayList<Query>();
+		rEvidence = new ArrayList<Query>();
 		smoothCount();
-		trainingData = new ArrayList<Query>();
+;
+	//	trainingData = new ArrayList<Query>();
 	}
 	
 	//TODO: finish
@@ -73,7 +76,6 @@ public class NaiveBayesClassifier{
 				break;
 			default:
 				break;
-			
 			}
 		}
 	}
@@ -84,6 +86,10 @@ public class NaiveBayesClassifier{
 		boolean same = false;
 		int index = 1;
 		smoothCount(); // resets data except for demo and rep count
+	
+		// goes through all queries in both givens
+		for(Query rq : )
+			
 		for(String s : q.getConditions()){
 			for(Query tq : trainingData){
 				for(String tqs : tq.getConditions()){
