@@ -8,6 +8,7 @@
 	<classpathentry kind="src" path="A3 Redo"/>
 	<classpathentry kind="src" path="A5"/>
 	<classpathentry kind="src" path="A6"/>
+	<classpathentry kind="src" path="A7"/>
 	<classpathentry kind="lib" path="A6/lib/gson-2.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>

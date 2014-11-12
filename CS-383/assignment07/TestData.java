@@ -17,7 +17,7 @@ public class TestData{
 
 	//assuming we count doubles if they exists
 	private List<Query> values;
-
+	
 	/* 	constructor
 	 * inputs: list of queryRV, and a list of evidenceRVs 
 	 * P(demo|evidence)

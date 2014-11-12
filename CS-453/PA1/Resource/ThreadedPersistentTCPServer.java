@@ -62,7 +62,7 @@ public class ThreadedPersistentTCPServer {
 				if(clientSentence.equals(".")) break;
 				String capitalizedSentence = clientSentence.toUpperCase() + '\n';
 				outToClient.writeBytes(capitalizedSentence);
-			} 
+			}
 		}		
 		System.out.println("Closing client connection from " + 
 				connectionSocket.getRemoteSocketAddress());

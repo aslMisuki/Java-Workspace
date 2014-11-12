@@ -70,5 +70,40 @@
 			<type>1</type>
 			<locationURI>PROJECT_LOC/A6/assignment06/jResources/wetgrass.json</locationURI>
 		</link>
+		<link>
+			<name>A7/assignment07/BinaryRV.java</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment07/BinaryRV.java</locationURI>
+		</link>
+		<link>
+			<name>A7/assignment07/NaiveBayesClassifier.java</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment07/NaiveBayesClassifier.java</locationURI>
+		</link>
+		<link>
+			<name>A7/assignment07/Query.java</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment07/Query.java</locationURI>
+		</link>
+		<link>
+			<name>A7/assignment07/TestData.java</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment07/TestData.java</locationURI>
+		</link>
+		<link>
+			<name>A7/assignment07/readme.txt</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment07/Resources/readme.txt</locationURI>
+		</link>
+		<link>
+			<name>A7/assignment07/test.data</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment07/Resources/test.data</locationURI>
+		</link>
+		<link>
+			<name>A7/assignment07/training.data</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CS-383/assignment07/Resources/training.data</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

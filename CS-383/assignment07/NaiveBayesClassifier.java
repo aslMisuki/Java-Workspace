@@ -16,13 +16,19 @@ public class NaiveBayesClassifier{
 	 */
 	
 	private double[] republicanCount;
-	private double[] demorcratCount;
+	private double[] democratCount;
 	
 	private List<Query> trainingData;
 	
+	private List<Query> dEvidence;
+	private List<Query> rEvidence;
+	
+	
 	public NaiveBayesClassifier(){
 		republicanCount = new double[17]; //17 includes id count
-		demorcratCount = new double[17];
+		republicanCount[0] = 1;
+		democratCount = new double[17];
+		democratCount[0] = 1;
 		smoothCount();
 		trainingData = new ArrayList<Query>();
 	}
@@ -40,36 +46,72 @@ public class NaiveBayesClassifier{
 		String id="";
 		while(br.hasNext()){
 			line = br.nextLine();
-			System.out.println("new line: " + line);
+			//System.out.println("new line: " + line);
 			
 			if(line.contains("republican")){
 				id = "republican";
-				line.replace("republican", "");
+				line = line.replace("republican,", "");
+				republicanCount[0]++;
 			}
 			else if(line.contains("democrat")){
 				id = "democrat";
-				line.replace("democrat", "");
+				line = line.replace("democrat,", "");
+				democratCount[0]++;
 			}
 			else{
 				id="";
 				System.out.println("false");
 			}
-			System.out.println("mod Line: " + line + "\n");
+			//System.out.println("mod Line: " + line + "\n");
 			temp = line.split(",");
-			trainingData.add(new Query(id,temp));
-			id="";
+			switch(id){
+			case "republican":
+				rEvidence.add(new Query(id,temp));
+				break;
+			case "democrat":
+				dEvidence.add(new Query(id,temp));
+				break;
+			default:
+				break;
+			
+			}
 		}
 	}
 	
-	//initiates all counters to 1
+	//TODO: needs to increment index correctly
+	//takes query from testdata 
+	private double calcQuery(Query q){
+		boolean same = false;
+		int index = 1;
+		smoothCount(); // resets data except for demo and rep count
+		for(String s : q.getConditions()){
+			for(Query tq : trainingData){
+				for(String tqs : tq.getConditions()){
+					if(s.equals(tqs)){
+						same = true;
+					}
+				}
+			}
+		}
+		
+		return 0;
+	}
+	
+	
+	//in itiates all counters to 1
 	private void smoothCount(){
 		int index=0;
+		double r = republicanCount[0];
+		double de = democratCount[0];
+		
 		for(double d: republicanCount){
 			republicanCount[index] = 1;
-			demorcratCount[index] = 1;
+			democratCount[index] = 1;
 			index++;
 		}
-	}
+		republicanCount[0] = r;
+		democratCount[0] = de;
+	}	
 	
 	public String trainingToString(){
 		StringBuilder st = new StringBuilder();
@@ -78,12 +120,15 @@ public class NaiveBayesClassifier{
 		for(Query q : trainingData){
 			st.append(q.toString() + "\n");
 		}
+		st.append("Total Demorcrat: " + democratCount[0] + "\n");
+		st.append("Totl Republicans: " + republicanCount[0]);
 		return st.toString();
 	}
 	
 	/*
 	 * Print format:
 	 * ID,max(<P(ID|votes)> , <P(ID|votes)>)   *no spaces
+	 *TODO: finish this
 	 */
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
@@ -91,6 +136,17 @@ public class NaiveBayesClassifier{
 		return sb.toString();
 	}
 	
+	
+	//getters
+		
+	public List<Query> getDEvidence(){
+		return dEvidence;
+	}
+	
+	public List<Query> getREvidence(){
+		return rEvidence;
+	}
+
 	public static void main(String args[]) throws IOException{
 		
 		TestData testData;
@@ -102,8 +158,12 @@ public class NaiveBayesClassifier{
 		
 		switch(mode){
 		case "IDE" :
-			trainingFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
-			testFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
+//			trainingFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
+//			testFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
+			//Laptop
+			trainingFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
+			testFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
+			
 			break;
 		case "Shell":
 			trainingFile = new File(args[0]);
@@ -118,6 +178,9 @@ public class NaiveBayesClassifier{
 			//System.out.println("file can be read");
 			naiveBC = new NaiveBayesClassifier();
 			naiveBC.parseTrainingData(trainingFile);
+		
+			System.out.println(naiveBC.trainingToString());
+			
 			//testData = new TestData();
 			//testData.parseTestFile(testFile);
 	

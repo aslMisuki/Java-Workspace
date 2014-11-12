@@ -36,6 +36,11 @@ public class Query{
 		return conditions;
 	}
 	
+	//returns condition at a specific index
+	public String getConditions(int i){
+		return conditions[i];
+	}
+	
 	public String getParty(){
 		return party;
 	}
