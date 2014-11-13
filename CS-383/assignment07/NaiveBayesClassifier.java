@@ -179,12 +179,11 @@ public class NaiveBayesClassifier{
 		double ret = 0;
 		if(d > r){
 			id = "democrat";
-			ret = democrats/(republicans + democrats);
+			ret = d/(r+d);
 		}
 		else{ // default to
 			id = "republican";
-			System.out.println("testing: " + ret + "," + democrats/(republicans + democrats));
-			ret = republicans/(republicans + democrats);
+			ret = r/(r+d);;
 		}
 		
 		return new Result(id, ret);
@@ -290,11 +289,11 @@ public class NaiveBayesClassifier{
 
 		switch(mode){
 		case "IDE" :
-			//trainingFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
-			//testFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
+			trainingFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
+			testFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
 			//Laptop
-			trainingFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
-			testFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
+//			trainingFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
+//			testFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
 
 			break;
 		case "SHELL":
