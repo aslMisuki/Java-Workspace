@@ -19,7 +19,7 @@ public class TestData{
 	private List<Query> values;
 	
 	/* 	constructor
-	 * inputs: list of queryRV, and a list of evidenceRVs 
+	 * 
 	 * P(demo|evidence)
 	 */
 
@@ -47,23 +47,19 @@ public class TestData{
 		return values;
 	}
 	
+	//returns size of values list
+	public int getSize(){
+		return values.size();
+	}
+	
 	//used for testing
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		st.append("Printing test data:\n");
 		
 		for(Query q : values){
-		
-		st.append(q.toString() + "\n");
+			st.append(q.toString() + "\n");
 		}
-//			for(String s : q.getConditions()){
-//				st.append(s + ",");
-//			}
-//			st.deleteCharAt(st.length()-1);
-//			st.append("\n");
-//		}
-		
 		return st.toString();
 	}
-
 }

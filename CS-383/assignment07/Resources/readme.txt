@@ -9,14 +9,17 @@ Query.java
 TestData.java
 
 TestData 
-	- takes the test.data file and stores it
+	- takes the test.data file and stores it as a list of Query
 
 NaiveBayesClassifier.java
 	- this takes Training.data and creates a model so we can classify queries in TestData.java with its probability
 	- parseTrainingData is good
 	- parseTestData is good
+	- smoothCount is good
+	- countValues() seems to me working, did some testing to make sure it incremented correctly
+	
 
 Query.java
-	the query represntation of the information inside TestData
+	the query representation of the information inside TestData
 
 TestData.java

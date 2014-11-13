@@ -136,19 +136,19 @@ public class FJDQuery{
 		while(br.hasNext()){
 			line = br.nextLine();
 			switch(mode){
-			case "query":
-				query.addLine(line);
-				break;
-
-			case "data":
-				temp = tokenizer(line, mode);
-				car = new Car(temp[0],temp[1],temp[2], temp[3], temp[4], temp[5], temp[6]);
-				carList.add(car);
-				break;
-
-			default:
-				System.out.println("bad mode passed into parseFile()");
-				break;
+				case "query":
+					query.addLine(line);
+					break;
+	
+				case "data":
+					temp = tokenizer(line, mode);
+					car = new Car(temp[0],temp[1],temp[2], temp[3], temp[4], temp[5], temp[6]);
+					carList.add(car);
+					break;
+	
+				default:
+					System.out.println("bad mode passed into parseFile()");
+					break;
 			}
 		}
 	}
@@ -199,10 +199,5 @@ public class FJDQuery{
 		else{
 			System.out.println("Bad File or Directory");
 		}
-
-
-
-
-
 	}
 }
