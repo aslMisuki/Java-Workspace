@@ -30,16 +30,16 @@ public class NaiveBayesClassifier{
 
 
 	public NaiveBayesClassifier(){
-		republicanYCount = new double[16]; //17 includes id count
-		republicanNCount = new double[16]; //17 includes id count
-		republicans = 1;
+		republicanYCount = new double[16];
+		republicanNCount = new double[16]; 
+		republicans = 1; //smoothed
 		democratYCount = new double[16];
 		democratNCount = new double[16];
-		democrats = 1;
+		democrats = 1; //smoothed
 
 		dEvidence = new ArrayList<Query>();
 		rEvidence = new ArrayList<Query>();
-		smoothCount(); //smoothes the count to account  for naiveBayes
+		smoothCount(); //smoothes all y/n counts to account  for naiveBayes
 	}
 
 	//TODO: finish
@@ -139,8 +139,7 @@ public class NaiveBayesClassifier{
 		for(Query q : td.getValues()){
 			result.add(calcQuery(q));
 		}
-		System.out.println();
-		System.out.println("Printing calcTestData");
+		//System.out.println("Printing calcTestData");
 		for(Result r : result){
 			System.out.println(r.getParty() + "," + r.getProb());
 		}
@@ -158,7 +157,7 @@ public class NaiveBayesClassifier{
 			switch(s){
 				case "y" :
 					r += Math.log(republicanYCount[index] / republicans);
-					System.out.println("dividing by: " + republicanYCount[index]  + "/" + republicans + "@index: " + index);
+					//System.out.println("dividing by: " + republicanYCount[index]  + "/" + republicans + "@index: " + index);
 					d += Math.log(democratYCount[index] / democrats);
 					break;
 				case "n" :
@@ -178,14 +177,17 @@ public class NaiveBayesClassifier{
 		
 		r = Math.exp(r);
 		d = Math.exp(d);
+		double ret = 0;
 		if(r > d){
 			id = "republican";
+			ret = r;
 		}
 		else{
 			id = "democrat";
+			ret = d;
 		}
 		
-		return new Result(id, Math.max(r, d));
+		return new Result(id, ret);
 	}
 
 	//in itiates all counters to 1 except IDs
@@ -275,16 +277,6 @@ public class NaiveBayesClassifier{
 		}
 		return sb.toString();
 	}
-	/*
-	 * Print format:
-	 * ID,max(<P(ID|votes)> , <P(ID|votes)>)   *no spaces
-	 *TODO: finish this
-	 */
-	public String toString(){
-		StringBuilder sb = new StringBuilder();
-
-		return sb.toString();
-	}
 
 	public static void main(String args[]) throws IOException{
 
@@ -317,7 +309,7 @@ public class NaiveBayesClassifier{
 			//System.out.println("file can be read");
 			naiveBC = new NaiveBayesClassifier();
 			naiveBC.parseTrainingData(trainingFile);
-			System.out.println(naiveBC.valuesToString());
+			//System.out.println(naiveBC.valuesToString());
 			//System.out.println(naiveBC.trainingToString());
 
 			testData = new TestData();
