@@ -3,12 +3,11 @@ This is the readme for A7
 
 So for this project, I am going to implement classes:
 
-BinaryRV.java
 NaiveBayesClassifier.java
 Query.java
 TestData.java
 
-TestData 
+TestData.java
 	- takes the test.data file and stores it as a list of Query obj
 
 NaiveBayesClassifier.java
@@ -26,5 +25,3 @@ NaiveBayesClassifier.java
 
 Query.java
 	a data structure for the information for queries
-
-TestData.java

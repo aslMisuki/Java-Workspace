@@ -130,7 +130,6 @@ public class NaiveBayesClassifier{
 
 	/*
 	 * Takes test data and constructs P(class|evidence) using counting collected
-	 * TODO: 
 	 */
 	public void calcTestData(TestData td){
 		
@@ -144,7 +143,7 @@ public class NaiveBayesClassifier{
 			System.out.println(r.getParty() + "," + r.getProb());
 		}
 	}
-	//TODO: needs to increment index correctly
+	
 	//takes a single query from test data and returns a Result obj
 	private Result calcQuery(Query q){
 		String id ="";
@@ -285,7 +284,8 @@ public class NaiveBayesClassifier{
 		File testFile = null;
 		File trainingFile = null;
 
-		String mode = "IDE"; // "IDE" or "Shell"
+		String mode = "Shell"; // "IDE" or "Shell"
+		mode = mode.toUpperCase();
 
 		switch(mode){
 		case "IDE" :
@@ -296,7 +296,7 @@ public class NaiveBayesClassifier{
 			//			testFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
 
 			break;
-		case "Shell":
+		case "SHELL":
 			trainingFile = new File(args[0]);
 			testFile = new File(args[1]);
 			break;
