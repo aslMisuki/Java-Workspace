@@ -133,8 +133,7 @@ public class NaiveBayesClassifier{
 	 * TODO: 
 	 */
 	public void calcTestData(TestData td){
-		int index = 0;
-
+		
 		List<Result> result = new ArrayList<Result>();
 		
 		for(Query q : td.getValues()){
@@ -150,35 +149,42 @@ public class NaiveBayesClassifier{
 	//takes a single query from test data and returns a Result obj
 	private Result calcQuery(Query q){
 		String id ="";
-		double r = 1;
-		double d = 1;
+		double r = 0;
+		double d = 0;
 
 		int index = 0;
-		smoothCount(); // resets data except for demo and rep count
 		for(String s : q.getConditions()){
 			//P(c|evidence)
 			switch(s){
-			case "y" :
-				r *= (republicanYCount[index] / republicans);
-				d *= (democratYCount[index] / democrats);
-				break;
-			case "n" :
-				r *= (republicanNCount[index] / republicans);
-				d *= (democratNCount[index] / democrats);
-				break;
-			case "?" : //just a precaution do nothing
-				break;
-			default:
-				break;
+				case "y" :
+					r += Math.log(republicanYCount[index] / republicans);
+					System.out.println("dividing by: " + republicanYCount[index]  + "/" + republicans + "@index: " + index);
+					d += Math.log(democratYCount[index] / democrats);
+					break;
+				case "n" :
+					r += Math.log(republicanNCount[index] / republicans);
+					d += Math.log(democratNCount[index] / democrats);
+					break;
+				case "?" : //just a precaution do nothing
+					break;
+				default:
+					break;
 			}
 			index++;
 		}
+		
+		r += Math.log(republicans/(republicans + democrats)) ;
+		d += Math.log(democrats/(republicans + democrats)) ;
+		
+		r = Math.exp(r);
+		d = Math.exp(d);
 		if(r > d){
 			id = "republican";
 		}
 		else{
 			id = "democrat";
 		}
+		
 		return new Result(id, Math.max(r, d));
 	}
 
