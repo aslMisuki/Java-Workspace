@@ -1,0 +1,25 @@
+package test;
+
+import java.io.File;
+
+public class Testing {
+	
+	int count;
+	
+	public Testing(){
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		
+		ListTests test = new ListTests();
+		
+		test.boolArrayNull();
+		File currDir = new File(".");
+
+	}
+	
+	
+
+}

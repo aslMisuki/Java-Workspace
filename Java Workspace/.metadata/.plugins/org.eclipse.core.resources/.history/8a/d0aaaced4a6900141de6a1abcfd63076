@@ -1,0 +1,14 @@
+package assignment07;
+
+public class BinaryRV{
+	
+	
+	
+	boolean[] domain;
+	//constructor
+	public BinaryRV(){
+		
+	}
+	
+	
+}

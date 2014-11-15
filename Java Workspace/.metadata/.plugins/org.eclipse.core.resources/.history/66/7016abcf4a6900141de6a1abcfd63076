@@ -1,0 +1,10 @@
+package assignment07;
+
+public class BinaryRV{
+	
+	public BinaryRV(){ // constructor
+		
+	}
+	
+	
+}

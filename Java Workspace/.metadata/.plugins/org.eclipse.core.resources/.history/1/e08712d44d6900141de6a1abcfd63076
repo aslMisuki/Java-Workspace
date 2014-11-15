@@ -1,0 +1,17 @@
+package assignment07;
+
+public class BinaryRV{
+	
+	
+	String name; //demorcrat or republican
+	final boolean[] DOMAIN = {true,false};
+	boolean value;
+	
+	
+	//constructor
+	public BinaryRV(){
+		
+	}
+	
+	
+}

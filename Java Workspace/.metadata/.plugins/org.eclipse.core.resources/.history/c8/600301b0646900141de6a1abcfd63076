@@ -1,0 +1,14 @@
+package test;
+
+public class Testing {
+	
+	
+
+	public static void main(String[] args) {
+		
+		StringTests s = new StringTests();
+		s.splitters();
+
+	}
+
+}
