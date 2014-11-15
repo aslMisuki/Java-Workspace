@@ -167,7 +167,7 @@ public class FJDQuery{
 
 	public static void main(String args[]) throws IOException{
 
-		String mode = "edlab"; //"localSingle" or "local3Lines" or "edlab"
+		String mode = "localSingle"; //"localSingle" or "local3Lines" or "edlab"
 		File file = null;
 		File cardata = null;
 		
