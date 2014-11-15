@@ -177,7 +177,7 @@ public class NaiveBayesClassifier{
 		r = Math.exp(r);
 		d = Math.exp(d);
 		double ret = 0;
-		if(d > r){
+		if((d/(r+d)) > (r/(r+d))){
 			id = "democrat";
 			ret = d/(r+d);
 		}
@@ -289,8 +289,8 @@ public class NaiveBayesClassifier{
 
 		switch(mode){
 		case "IDE" :
-			trainingFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
-			testFile = new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
+			trainingFile 	= new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
+			testFile 		= new File("C:/Users/Nam Phan/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
 			//Laptop
 //			trainingFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/training.data");
 //			testFile = new File("C:/Users/Nam/Desktop/Repo/Java-Workspace/CS-383/assignment07/Resources/test.data");
